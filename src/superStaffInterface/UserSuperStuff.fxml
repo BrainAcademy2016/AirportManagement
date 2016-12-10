@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="400.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+
+            fx:controller="superStaffInterface.superStaffControllers.AddStuffController">
+   <children>
+      <Button layoutX="517.0" layoutY="14.0" mnemonicParsing="false" text="Seach" textAlignment="CENTER" AnchorPane.rightAnchor="35.0" />
+      <TextField layoutX="259.0" layoutY="14.0" prefHeight="25.0" prefWidth="250.0" AnchorPane.leftAnchor="259.0" AnchorPane.rightAnchor="91.0" />
+      <MenuButton layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="132.0" text="Menu" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="14.0">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Change user" />
+          <MenuItem mnemonicParsing="false" text="Sing out" />
+        </items>
+      </MenuButton>
+      <Accordion layoutX="28.0" layoutY="67.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="67.0">
+        <panes>
+          <TitledPane animated="false" text="Flights">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="addFlight" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Add" textAlignment="CENTER" />
+                        <Button layoutX="100.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Redact" textAlignment="CENTER" />
+                        <Button layoutX="14.0" layoutY="51.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Delete" />
+                     </children></AnchorPane>
+            </content>
+          </TitledPane>
+          <TitledPane animated="false" text="Stuffs">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="addStaff" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Add" textAlignment="CENTER" />
+                        <Button layoutX="100.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Redact" />
+                        <Button layoutX="14.0" layoutY="50.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Delete" textAlignment="CENTER" />
+                     </children></AnchorPane>
+            </content>
+          </TitledPane>
+        </panes>
+      </Accordion>
+      <TabPane layoutX="259.0" layoutY="67.0" prefHeight="313.0" prefWidth="321.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="259.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="67.0">
+        <tabs>
+          <Tab text="Flights">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView layoutX="14.0" layoutY="14.0" prefHeight="263.0" prefWidth="284.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="C1" />
+                            <TableColumn prefWidth="75.0" text="C2" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Stuffs">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tableStuffs" layoutY="-7.0" prefHeight="295.0" prefWidth="307.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="№" fx:id="idRootsColumn" />
+                            <TableColumn prefWidth="75.0" text="Root Name" fx:id="rootNameColumn" />
+                            <TableColumn prefWidth="75.0" text="Login" fx:id="loginColumn" />
+                            <TableColumn prefWidth="75.0" text="Password" fx:id="passwordColumn" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
