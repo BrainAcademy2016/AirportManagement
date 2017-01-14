@@ -1,16 +1,16 @@
-package superStaffInterface;
+package adminInterface;
 
 /**
  * Created by Alish on 07.12.2016.
  */
-public class Stuffs {
+public class Employee {
 
     private int idRoots;
     private String login;
     private String password;
     private String RootName;
 
-    public Stuffs (int idRoots, String login, String password, String rootName){
+    public Employee(int idRoots, String login, String password, String rootName){
         this.idRoots = idRoots;
         this.login = login;
         this.password = password;

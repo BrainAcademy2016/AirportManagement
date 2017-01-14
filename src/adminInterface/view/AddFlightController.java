@@ -1,4 +1,4 @@
-package superStaffInterface.superStaffControllers;
+package adminInterface.view;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

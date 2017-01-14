@@ -1,4 +1,4 @@
-package superStaffInterface;
+package adminInterface;
 
 /**
  * Created by Alish on 07.12.2016.
