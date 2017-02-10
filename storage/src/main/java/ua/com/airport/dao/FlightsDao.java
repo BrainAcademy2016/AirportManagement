@@ -45,5 +45,5 @@ public interface FlightsDao {
 
     void createFlight(FlightsEntity flightsEntity);
 
-    void updateFlight(int id);
+    void updateFlight(FlightsEntity id);
 }

@@ -150,7 +150,7 @@ public class FlightInfoController extends UserSceneController implements Initial
 //        });
 //    }
 
-    private void showFlightsInfo(){
+    public void showFlightsInfo(){
         flightsData.clear();
         FlightsDaoImpl flightsDao = new FlightsDaoImpl();
         List<FlightsEntity> flightsListDB = flightsDao.getAllFilteredFlights(filtersList);

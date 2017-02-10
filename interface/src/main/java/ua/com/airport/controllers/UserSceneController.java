@@ -31,7 +31,8 @@ public class UserSceneController extends Controller implements Initializable {
     @FXML private DatePicker datePickerFrom;
     @FXML private AnchorPane leftFilters;
     @FXML private ChoiceBox seatsBox;
-    @FXML private TableView<FlightsEntity> flightsTable;
+    @FXML
+    TableView<FlightsEntity> flightsTable;
     @FXML private TableColumn<ObservableList<FlightsEntity>, String> numberColumn;
     @FXML private TableColumn<FlightsEntity, String> flightColumn;
     @FXML private TableColumn<FlightsEntity, String> depCityColumn;
@@ -157,7 +158,7 @@ public class UserSceneController extends Controller implements Initializable {
         });
     }
 
-    private void showFlightsInfo(){
+    public void showFlightsInfo(){
         flightsData.clear();
         FlightsDaoImpl flightsDao = new FlightsDaoImpl();
         List<FlightsEntity> flightsListDB = flightsDao.getAllFilteredFlights(filtersList);

@@ -35,9 +35,9 @@
                             <children>
                                 <HBox alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="350.0" spacing="5.0" AnchorPane.rightAnchor="320.0" AnchorPane.topAnchor="5.0">
                                    <children>
-                                       <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Add" />
-                                       <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Edit" />
-                                       <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Delete" />
+                                       <Button onAction="#handleAddFlight" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Add" />
+                                       <Button onAction="#handleEditFlight" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Edit" />
+                                       <Button onAction="#handleDeleteFlight" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Delete" />
                                    </children>
                                 </HBox>
                                 <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="300.0" text="Detail passenger information" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />

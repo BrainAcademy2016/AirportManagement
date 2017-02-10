@@ -101,15 +101,15 @@ public class EmployeeInfoController extends Controller implements Initializable 
             AnchorPane page = (AnchorPane) loader.load();
 
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Edit Employee");
+            dialogStage.setTitle("Add Employee");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(mainApp.getMainAppWindow());
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
 
             // Передаём адресата в контроллер.
-            EmployeeAddController eMAddController = loader.getController();
-            eMAddController.setDialogStage(dialogStage);
+            EmployeeAddController emAddController = loader.getController();
+            emAddController.setDialogStage(dialogStage);
 
             scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
                 @Override
@@ -117,7 +117,7 @@ public class EmployeeInfoController extends Controller implements Initializable 
                     if (keyCombClose.match(event)) {
                         dialogStage.close();
                     } else if (keyCombOk.match(event)) {
-                        eMAddController.handleOk();
+                        emAddController.handleOk();
                     }
                 }
             });
