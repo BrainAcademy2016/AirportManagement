@@ -1,10 +1,7 @@
 package ua.com.airport.controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import ua.com.airport.daoimpl.FlightsDaoImpl;
 import ua.com.airport.entities.FlightsEntity;
@@ -18,9 +15,9 @@ public class FlightEditController {
     @FXML private DatePicker departureDate;
     @FXML private TextField arrivalCity;
     @FXML private DatePicker arrivalDate;
-    @FXML private MenuButton classFlight;
+    @FXML private ComboBox classFlight;
     @FXML private TextField price;
-    @FXML private MenuButton status;
+    @FXML private ComboBox status;
 
     private Stage dialogStage;
     private FlightsEntity currentFlight;
@@ -44,9 +41,9 @@ public class FlightEditController {
             currentFlight.setFlightNumber(flight.getText());
             currentFlight.setCityOfDeparture(departureCity.getText());
             currentFlight.setCityOfArrival(arrivalCity.getText());
-            currentFlight.setClassType(classFlight.getText());
+            currentFlight.setClassType((String) classFlight.getValue());
       //      currentFlight.setClassPrice(price.getText());
-            currentFlight.setFlightStatus(status.getText());
+            currentFlight.setFlightStatus((String) status.getValue());
 
             okClicked = true;
             FlightsDaoImpl flightsDao = new FlightsDaoImpl();
@@ -73,13 +70,13 @@ public class FlightEditController {
         if (arrivalCity.getText() == null || arrivalCity.getText().length() == 0) {
             errorMessage += "No valid city!\n";
         }
-        if (classFlight.getText() == null || classFlight.getText().length() == 0) {
+        if (classFlight.getValue() == null) {
             errorMessage += "No valid city!\n";
         }
         if (price.getText() == null || price.getText().length() == 0) {
             errorMessage += "No valid price!\n";
         }
-        if (status.getText() == null || status.getText().length() == 0) {
+        if (status.getValue() == null) {
             errorMessage += "No valid status!\n";
         }
 
@@ -116,13 +113,13 @@ public class FlightEditController {
         this.arrivalCity.setText(arrivalCity);
     }
     public void setClassFlight(String classFlight) {
-        this.classFlight.setText(classFlight);
+        this.classFlight.setValue(classFlight);
     }
     public void setPrice(String price) {
         this.price.setText(price);
     }
     public void setStatus(String status) {
-        this.status.setText(status);
+        this.status.setValue(status);
     }
 }
 

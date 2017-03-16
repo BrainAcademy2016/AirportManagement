@@ -142,16 +142,111 @@ public class FlightsDaoImpl extends DataBaseUtil implements FlightsDao {
 
     @Override
     public void deleteFLight(FlightsEntity flightsEntity) {
+        String query = "DELETE FROM Flights WHERE idFlight = ?";
+        try{
+            con = getConnectionDb();
+            if(con != null){
+                pstmt = con.prepareStatement(query);
+             //   pstmt.setInt(1, id);
+                pstmt.executeUpdate();
+            }
+        } catch (SQLException sqlE) {
+            System.out.printf("Connection problem");
+            System.out.println(sqlE);
 
+        } finally {
+            try {
+                if (con != null) {
+                    pstmt.close();
+                }
+            } catch (SQLException se) { /*can't do anything */ }
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException se) { /*can't do anything */ }
+        }
     }
 
     @Override
-    public void createFlight(FlightsEntity flightsEntity) {
+    public void createFlight(FlightsEntity currentFlight) {
+        String query = "INSERT INTO Flights (FlightNumber, "+"DepartureCity, DepartureTime, " +
+        "ArrivalCity, ArivalTime, " +
+                "Gate, Terminal, FlightStatus, " +
+                "ClassType, Price)" + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            con = getConnectionDb();
+            if (con != null) {
+                pstmt = con.prepareStatement(query);
+                pstmt.setString(1, currentFlight.getFlightNumber());
+                pstmt.setString(2, currentFlight.getCityOfDeparture());
+                pstmt.setString(3, currentFlight.getDepartureTime());
+                pstmt.setString(4, currentFlight.getCityOfArrival());
+                pstmt.setString(5, currentFlight.getArrivalTime());
+                pstmt.setString(6, currentFlight.getGate());
+                pstmt.setString(7, currentFlight.getClassType());
+                pstmt.setString(8, currentFlight.getFlightStatus());
+                pstmt.setString(9, String.valueOf(currentFlight.getClassPrice()));
+                pstmt.setString(10,currentFlight.getTerminal());
+                pstmt.executeUpdate();
+            }
+        } catch (SQLException sqlE) {
+            System.out.printf("Connection problem");
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException se) { /*can't do anything */ }
+            try {
+                if (con != null) {
+                    pstmt.close();
+                }
+            } catch (SQLException se) { /*can't do anything */ }
+            flightsList.add(currentFlight);
 
+        }
     }
 
     @Override
-    public void updateFlight(FlightsEntity id) {
-
+    public void updateFlight(FlightsEntity flightsEntity) {
+        String query = "UPDATE Flights SET FlightNumber = ?, "+"DepartureCity = ?, DepartureTime = ?," +
+                "ArrivalCity = ?, ArivalTime = ?," +
+                "Gate = ?, Terminal = ?, FlightStatus = ?," +
+                "ClassType = ?, Price = ?" + "WHERE idFlight = ?";
+        try {
+            con = getConnectionDb();
+            if (con != null) {
+                pstmt = con.prepareStatement(query);
+                pstmt.setString(1, flightsEntity.getFlightNumber());
+                pstmt.setString(2, flightsEntity.getCityOfDeparture());
+                pstmt.setString(3, flightsEntity.getDepartureTime());
+                pstmt.setString(4, flightsEntity.getCityOfArrival());
+                pstmt.setString(5, flightsEntity.getArrivalTime());
+                pstmt.setString(6, flightsEntity.getGate());
+                pstmt.setString(7, flightsEntity.getClassType());
+                pstmt.setString(8, flightsEntity.getFlightStatus());
+                pstmt.setString(9, String.valueOf(flightsEntity.getClassPrice()));
+                pstmt.setString(10,flightsEntity.getTerminal());
+           //     pstmt.setInt(11, get);
+                pstmt.executeUpdate();
+            }
+        } catch (SQLException sqlE) {
+            System.out.printf("Connection problem");
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException se) { /*can't do anything */ }
+            try {
+                if (con != null) {
+                    pstmt.close();
+                }
+            } catch (SQLException se) { /*can't do anything */ }
+        }
     }
+
+
 }
+

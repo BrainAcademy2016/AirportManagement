@@ -1,28 +1,37 @@
 package ua.com.airport.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.TextField;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import ua.com.airport.daoimpl.RootsDaoImpl;
 import ua.com.airport.entities.RootsEntity;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class EmployeeEditController {
+
+public class EmployeeEditController implements Initializable {
     @FXML
     private TextField login;
     @FXML
     private TextField password;
     @FXML
-    private MenuButton rootName;
-
+    private ComboBox rootName;
 
     private Stage dialogStage;
     private RootsEntity currentEmployee;
 
+    private ObservableList<String> rootsList = FXCollections.observableArrayList();
+
+
     @FXML
-    private void initialize() {
+    public void initialize(URL location, ResourceBundle resourceBundle) {
+        rootsList.add("Admin");
+        rootsList.add("Manager");
+        rootName.setItems(rootsList);
     }
 
     public void setDialogStage(Stage dialogStage) {
@@ -32,10 +41,11 @@ public class EmployeeEditController {
 
     @FXML
     public void handleOkEdit() {
-        currentEmployee.setRootName(rootName.getText());
+        currentEmployee.setRootName((String) rootName.getValue());
         currentEmployee.setLogin(login.getText());
         currentEmployee.setPassword(password.getText());
 
+        dialogStage.close();
         RootsDaoImpl rootsDao = new RootsDaoImpl();
         rootsDao.updateRoot(currentEmployee);
     }
@@ -56,7 +66,7 @@ public class EmployeeEditController {
         if (password.getText() == null || password.getText().length() == 0) {
             errorMessage += "No valid password!\n";
         }
-        if (rootName.getText() == null || rootName.getText().length() == 0) {
+        if (rootName.getValue() == null) {
             errorMessage += "No valid roots!\n";
         }
 
@@ -93,6 +103,6 @@ public class EmployeeEditController {
     }
 
     public void setRootName(String rootName) {
-        this.rootName.setText(rootName);
+        this.rootName.setValue(rootName);
     }
 }

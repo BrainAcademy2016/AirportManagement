@@ -7,11 +7,11 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="409.0" prefWidth="470.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.com.airport.controllers.FlightEditController">
    <children>
-      <Button layoutX="77.0" layoutY="349.0" mnemonicParsing="false" onAction="#handleOkEdit" prefHeight="30.0" prefWidth="61.0" text="OK" textAlignment="CENTER">
+      <Button layoutX="77.0" layoutY="364.0" mnemonicParsing="false" onAction="#handleOkEdit" prefHeight="30.0" prefWidth="61.0" text="OK" textAlignment="CENTER">
          <font>
             <Font size="14.0" />
          </font></Button>
-      <Button layoutX="157.0" layoutY="349.0" mnemonicParsing="false" onAction="#handleCancel" text="Cancel" textAlignment="CENTER">
+      <Button layoutX="157.0" layoutY="364.0" mnemonicParsing="false" onAction="#handleCancel" text="Cancel" textAlignment="CENTER">
          <font>
             <Font size="14.0" />
          </font></Button>
@@ -54,25 +54,19 @@
          </font>
       </Label>
       <TextField fx:id="price" layoutX="248.0" layoutY="278.0" prefHeight="25.0" prefWidth="157.0" />
-      <MenuButton fx:id="classFlight" layoutX="248.0" layoutY="315.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="157.0" text="Status" textAlignment="CENTER">
-         <items>
-            <MenuItem mnemonicParsing="false" text="Econom" />
-            <MenuItem mnemonicParsing="false" text="Business" />
-         </items>
-         <font>
-            <Font size="14.0" />
-         </font>
-      </MenuButton>
-      <MenuButton fx:id="status" layoutX="248.0" layoutY="231.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="157.0" text="Class" textAlignment="CENTER">
-         <items>
-            <MenuItem mnemonicParsing="false" text="In process" />
-            <MenuItem mnemonicParsing="false" text="Action 2" />
-         </items>
-         <font>
-            <Font size="14.0" />
-         </font>
-      </MenuButton>
       <DatePicker fx:id="departureDate" layoutX="248.0" layoutY="105.0" prefHeight="25.0" prefWidth="157.0" />
       <DatePicker fx:id="arrivalDate" layoutX="248.0" layoutY="188.0" prefHeight="25.0" prefWidth="157.0" />
+      <ComboBox fx:id="classFlight" layoutX="248.0" layoutY="234.0" prefHeight="25.0" prefWidth="157.0" />
+      <ComboBox fx:id="status" layoutX="248.0" layoutY="314.0" prefHeight="25.0" prefWidth="157.0" />
+      <Label layoutX="79.0" layoutY="234.0" text="Class" textAlignment="CENTER">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="79.0" layoutY="314.0" text="Status" textAlignment="CENTER">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
    </children>
-        </AnchorPane>
+</AnchorPane>

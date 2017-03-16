@@ -1,34 +1,37 @@
 package ua.com.airport.controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.TextField;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.ChoiceBoxListCell;
 import javafx.stage.Stage;
 import ua.com.airport.daoimpl.FlightsDaoImpl;
 import ua.com.airport.daoimpl.RootsDaoImpl;
 import ua.com.airport.entities.FlightsEntity;
 import ua.com.airport.entities.RootsEntity;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 /**
  * Created by Alish on 27.01.2017.
  */
-public class FlightAddController {
+public class FlightAddController implements Initializable {
     @FXML private TextField flight;
     @FXML private TextField departureCity;
     @FXML private DatePicker departureDate;
     @FXML private TextField arrivalCity;
     @FXML private DatePicker arrivalDate;
-    @FXML private MenuButton classFlight;
+    @FXML private ComboBox classFlight;
     @FXML private TextField price;
-    @FXML private MenuButton status;
+    @FXML private ComboBox status;
 
     private Stage dialogStage;
     private boolean okClicked = false;
 
     @FXML
-    private void initialize() {
+    public void initialize(URL location, ResourceBundle resources) {
+
     }
 
     public void setDialogStage(Stage dialogStage) {
@@ -43,7 +46,7 @@ public class FlightAddController {
     public void handleOk() {
         if (isInputValid()){
             FlightsEntity currentFlight = new FlightsEntity(flight.getText(), departureCity.getText(),
-                    arrivalCity.getText(), classFlight.getText(),price.getText(), status.getText());
+                    arrivalCity.getText(),(String) classFlight.getValue(),price.getText(),(String) status.getValue());
 
             okClicked = true;
             FlightsDaoImpl flightsDao = new FlightsDaoImpl();
@@ -70,13 +73,13 @@ public class FlightAddController {
         if (arrivalCity.getText() == null || arrivalCity.getText().length() == 0) {
             errorMessage += "No valid city!\n";
         }
-        if (classFlight.getText() == null || classFlight.getText().length() == 0) {
+        if (classFlight.getValue() == null) {
             errorMessage += "No valid city!\n";
         }
         if (price.getText() == null || price.getText().length() == 0) {
             errorMessage += "No valid price!\n";
         }
-        if (status.getText() == null || status.getText().length() == 0) {
+        if (status.getValue() == null) {
             errorMessage += "No valid status!\n";
         }
 
@@ -95,8 +98,5 @@ public class FlightAddController {
             return false;
         }
     }
-
-
-
 }
 
