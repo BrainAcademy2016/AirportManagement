@@ -10,7 +10,6 @@ import java.util.Random;
 public class PassengerEntityGenerator {
     Random  random = new Random();
 
-
     public List<PassengersEntity>  passengersGenerator() {
         PassengerEntityGenerator generator = new PassengerEntityGenerator();
         PassengersEntity generatedPassenger;

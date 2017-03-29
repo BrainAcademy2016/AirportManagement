@@ -1,6 +1,6 @@
 package ua.com.airport.daoimpl;
 
-import ua.com.airport.DataBaseUtil;
+import ua.com.airport.dbUtils.DataBaseUtil;
 import ua.com.airport.dao.LoginDao;
 import ua.com.airport.entities.RootsEntity;
 

@@ -2,7 +2,7 @@ package ua.com.airport.daoimpl;
 
 import ua.com.airport.GuiFilter;
 import javafx.scene.control.Alert;
-import ua.com.airport.DataBaseUtil;
+import ua.com.airport.dbUtils.DataBaseUtil;
 import ua.com.airport.dao.FilterDao;
 
 import java.sql.Connection;
