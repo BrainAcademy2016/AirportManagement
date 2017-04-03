@@ -154,46 +154,46 @@
 }
 
 #seatsFilterHead{
-        -fx-background-image: url("../resources/images/icon_seats.png");
+        -fx-background-image: url("/images/icon_seats.png");
         -fx-background-size: 30 30;
         -fx-background-repeat: no-repeat;
         -fx-background-position: 10;
 }
 
 #destFilterHead{
-        -fx-background-image: url("../resources/images/icon_dw.png");
+        -fx-background-image: url("/images/icon_dw.png");
         -fx-background-size: 30 30;
         -fx-background-repeat: no-repeat;
         -fx-background-position: 10;
 }
 
 #depFilterHead{
-        -fx-background-image: url("../resources/images/icon_up.png");
+        -fx-background-image: url("/images/icon_up.png");
         -fx-background-size: 30 30;
         -fx-background-repeat: no-repeat;
         -fx-background-position: 10;
 }
 
 #flightFilterHead{
-    -fx-background-image: url("../resources/images/plain_icon.png");
+    -fx-background-image: url("/images/plain_icon.png");
     -fx-background-size: 30 30;
     -fx-background-repeat: no-repeat;
     -fx-background-position: 10;
 }
 #firstNameFilterHead{
-     -fx-background-image: url("../resources/images/user_name.png");
+     -fx-background-image: url("/images/user_name.png");
      -fx-background-size: 30 30;
      -fx-background-repeat: no-repeat;
      -fx-background-position: 10;
 }
 #lastNameFilterHead{
-      -fx-background-image: url("../resources/images/user_lastname.png");
+      -fx-background-image: url("/images/user_lastname.png");
       -fx-background-size: 30 30;
       -fx-background-repeat: no-repeat;
       -fx-background-position: 10;
 }
 #passportFilterHead{
-       -fx-background-image: url("../resources/images/passport.png");
+       -fx-background-image: url("/images/passport.png");
        -fx-background-size: 30 30;
        -fx-background-repeat: no-repeat;
        -fx-background-position: 10;

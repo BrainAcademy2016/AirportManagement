@@ -33,9 +33,9 @@ public class MainApp extends Application {
     private final int WINDOW_WIDTH = 1024;
 
     // App users Scenes
-    private final String DEFAULT_USER = "view/UserScene.fxml";
-    private final String STAFF_USER = "view/ManagerScene.fxml";
-    private final String ADMIN_USER = "view/AdminScene.fxml";
+    private final String DEFAULT_USER = "/view/UserScene.fxml";
+    private final String STAFF_USER = "/view/ManagerScene.fxml";
+    private final String ADMIN_USER = "/view/AdminScene.fxml";
 
     // App fields
     private Stage mainAppWindow;
@@ -64,7 +64,7 @@ public class MainApp extends Application {
 
         try {
             Stage splashStage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("view/SplashLayout.fxml"));
+            Parent root = FXMLLoader.load(this.getClass().getResource("/view/SplashLayout.fxml"));
 
             FadeTransition startFade = new FadeTransition(Duration.millis(2000), root);
             startFade.setFromValue(0.0);
@@ -157,7 +157,7 @@ public class MainApp extends Application {
     public boolean showLoginDialog() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/LoginDialog.fxml"));
+            loader.setLocation(MainApp.class.getResource("/view/LoginDialog.fxml"));
             GridPane page = (GridPane) loader.load();
 
             Stage dialogStage = new Stage();

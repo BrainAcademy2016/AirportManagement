@@ -118,7 +118,7 @@ public class PassengerInfoController extends Controller implements Initializable
     public void handleAddPassenger() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/PassengerAdding.fxml"));
+            loader.setLocation(MainApp.class.getResource("/view/PassengerAdding.fxml"));
             AnchorPane page = (AnchorPane) loader.load();
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Passenger adding");
@@ -153,7 +153,7 @@ public class PassengerInfoController extends Controller implements Initializable
             PassengersEntity selectedPassenger = passengersTable.getSelectionModel().getSelectedItem();
             if(selectedPassenger != null) {
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(MainApp.class.getResource("view/PassengerEditing.fxml"));
+                loader.setLocation(MainApp.class.getResource("/view/PassengerEditing.fxml"));
                 AnchorPane page = (AnchorPane) loader.load();
                 Stage dialogStage = new Stage();
                 dialogStage.setTitle("Passenger adding");
@@ -196,7 +196,7 @@ public class PassengerInfoController extends Controller implements Initializable
                 showPassengersInfo();
             } else {
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(MainApp.class.getResource("view/ErrorLayout.fxml"));
+                loader.setLocation(MainApp.class.getResource("/view/ErrorLayout.fxml"));
                 AnchorPane page = (AnchorPane) loader.load();
                 Stage dialogStage = new Stage();
                 dialogStage.setTitle("ERROR");
@@ -232,7 +232,7 @@ public class PassengerInfoController extends Controller implements Initializable
             PassengersEntity selectedPassenger = passengersTable.getSelectionModel().getSelectedItem();
             if(selectedPassenger != null) {
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(MainApp.class.getResource("view/PassengerDeleting.fxml"));
+                loader.setLocation(MainApp.class.getResource("/view/PassengerDeleting.fxml"));
                 AnchorPane page = (AnchorPane) loader.load();
                 Stage dialogStage = new Stage();
                 dialogStage.setTitle("Delete passenger");
@@ -263,7 +263,7 @@ public class PassengerInfoController extends Controller implements Initializable
                 showPassengersInfo();
             } else {
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(MainApp.class.getResource("view/ErrorLayout.fxml"));
+                loader.setLocation(MainApp.class.getResource("/view/ErrorLayout.fxml"));
                 AnchorPane page = (AnchorPane) loader.load();
                 Stage dialogStage = new Stage();
                 dialogStage.setTitle("ERROR");

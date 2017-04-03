@@ -1,5 +1,5 @@
 #Splash {
-    -fx-background-image: url('../resources/images/splash_bg.jpg');
+    -fx-background-image: url('/images/splash_bg.jpg');
 }
 
 #loading{

@@ -97,7 +97,7 @@ public class EmployeeInfoController extends Controller implements Initializable 
     public void handleAddEmployee(ActionEvent actionEvent) {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/AddEmployee.fxml"));
+            loader.setLocation(MainApp.class.getResource("/view/AddEmployee.fxml"));
             AnchorPane page = (AnchorPane) loader.load();
 
             Stage dialogStage = new Stage();
@@ -135,7 +135,7 @@ public class EmployeeInfoController extends Controller implements Initializable 
             RootsEntity markedEmployee = employeeTable.getSelectionModel().getSelectedItem();
             if(markedEmployee != null){
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(MainApp.class.getResource("view/EditEmployee.fxml"));
+                loader.setLocation(MainApp.class.getResource("/view/EditEmployee.fxml"));
                 AnchorPane page = (AnchorPane) loader.load();
 
                 Stage dialogStage = new Stage();
@@ -168,7 +168,7 @@ public class EmployeeInfoController extends Controller implements Initializable 
                 showEmployeeInfo();
             } else {
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(MainApp.class.getResource("view/ErrorLayout.fxml"));
+                loader.setLocation(MainApp.class.getResource("/view/ErrorLayout.fxml"));
                 AnchorPane page = (AnchorPane) loader.load();
                 Stage dialogStage = new Stage();
                 dialogStage.setTitle("ERROR");
@@ -202,7 +202,7 @@ public class EmployeeInfoController extends Controller implements Initializable 
             RootsEntity markedEmployee = employeeTable.getSelectionModel().getSelectedItem();
             if (markedEmployee != null) {
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(MainApp.class.getResource("view/DeleteEmployee.fxml"));
+                loader.setLocation(MainApp.class.getResource("/view/DeleteEmployee.fxml"));
                 AnchorPane page = (AnchorPane) loader.load();
 
                 Stage dialogStage = new Stage();
@@ -236,7 +236,7 @@ public class EmployeeInfoController extends Controller implements Initializable 
                 showEmployeeInfo();
             } else {
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(MainApp.class.getResource("view/ErrorLayout.fxml"));
+                loader.setLocation(MainApp.class.getResource("/view/ErrorLayout.fxml"));
                 AnchorPane page = (AnchorPane) loader.load();
                 Stage dialogStage = new Stage();
                 dialogStage.setTitle("ERROR");
