@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="100.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.com.airport.controllers.PassengersDeletingController">
+    <children>
+        <Label text="Are you sure, that you want delete this field?" AnchorPane.topAnchor="5.0" AnchorPane.leftAnchor="10.0"/>
+        <HBox layoutX="97.1875" layoutY="241.0" spacing="5.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+            <children>
+                <Button layoutX="197.1875" layoutY="241.0" mnemonicParsing="false"  prefWidth="90.0" text="OK" onAction="#handleOkDelete"/>
+                <Button layoutX="249.375" layoutY="241.0" mnemonicParsing="false"  prefWidth="90.0" text="Cancel" onAction="#handleCancelButton" />
+            </children>
+        </HBox>
+    </children>
+</AnchorPane>

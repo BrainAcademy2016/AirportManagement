@@ -1,8 +1,0 @@
-#Splash {
-    -fx-background-image: url('../resources/images/splash_bg.jpg');
-}
-
-#loading{
-   -fx-font-style: italic;
-   -fx-font-weight: bold;
-}
