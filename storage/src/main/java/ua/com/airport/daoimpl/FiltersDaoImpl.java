@@ -1,6 +1,6 @@
 package ua.com.airport.daoimpl;
 
-import ua.com.airport.GuiFilter;
+import ua.com.airport.dbUtils.GuiFilter;
 import javafx.scene.control.Alert;
 import ua.com.airport.dbUtils.DataBaseUtil;
 import ua.com.airport.dao.FilterDao;

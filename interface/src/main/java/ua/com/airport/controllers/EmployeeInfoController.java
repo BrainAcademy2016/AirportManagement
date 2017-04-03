@@ -1,6 +1,6 @@
 package ua.com.airport.controllers;
 
-import ua.com.airport.GuiFilter;
+import ua.com.airport.dbUtils.GuiFilter;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;

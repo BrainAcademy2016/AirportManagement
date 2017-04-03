@@ -1,6 +1,6 @@
 package ua.com.airport.daoimpl;
 
-import ua.com.airport.GuiFilter;
+import ua.com.airport.dbUtils.GuiFilter;
 import ua.com.airport.dbUtils.DataBaseUtil;
 import ua.com.airport.dao.FlightsDao;
 import ua.com.airport.entities.FlightsEntity;
