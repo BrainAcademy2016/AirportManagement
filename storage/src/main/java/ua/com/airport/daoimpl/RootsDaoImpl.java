@@ -5,10 +5,7 @@ import ua.com.airport.dbUtils.DataBaseUtil;
 import ua.com.airport.dao.RootsDao;
 import ua.com.airport.entities.RootsEntity;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,17 +65,93 @@ public class RootsDaoImpl extends DataBaseUtil implements RootsDao{
 
     @Override
     public void deleteRoot(int id) {
-
+        String query = "DELETE FROM Roots WHERE idRoots = ?";
+        try{
+            con = getConnectionDb();
+            if(con != null) {
+                prst = con.prepareStatement(query);
+                prst.setInt(1, id);
+                prst.executeUpdate();
+            }
+        } catch (SQLException sqlE){
+            System.out.printf("Connection problem");
+            System.out.println(sqlE);
+        } finally {
+            try {
+                if (con != null) {
+                    prst.close();
+                }
+            } catch (SQLException se) {}
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException se) {
+            }
+        }
     }
 
     @Override
     public void updateRoot(RootsEntity rootsEntity) {
-
+        String query = "UPDATE Roots SET RootName = ?, Login = ?, Password = ?" +
+                "WHERE idRoots = ?";
+        try{
+            con = getConnectionDb();
+            prst = con.prepareStatement(query);
+            prst.setString(1, rootsEntity.getRootName());
+            prst.setString(2, rootsEntity.getLogin());
+            prst.setString(3, rootsEntity.getPassword());
+            prst.setInt(4, rootsEntity.getId());
+            prst.executeUpdate();
+        } catch (SQLException sqlE){
+            System.out.printf("Connection problem");
+            System.out.println(sqlE);
+        } finally {
+            try{
+                if (con != null){
+                    prst.close();
+                }
+            } catch (SQLException se){}
+            try{
+                if (con != null){
+                    con.close();
+                }
+            } catch (SQLException se){}
+        }
     }
 
     @Override
-    public void createRoot(RootsEntity rootsEntity) {
-
+    public void createRoot(RootsEntity currentEmployee) {
+        String query = "INSERT INTO Roots (RootName, " + "Login, Password)" +
+                "VALUE (?, ?, ?)";
+        try{
+            con = getConnectionDb();
+            prst = con.prepareStatement(query);
+            prst.setString(1, currentEmployee.getRootName());
+            prst.setString(2, currentEmployee.getLogin());
+            prst.setString(3, currentEmployee.getPassword());
+            prst.executeUpdate();
+        }catch (SQLException sqlE){
+            System.out.printf("Connection problem");
+            System.out.println(sqlE);
+            if(sqlE instanceof SQLIntegrityConstraintViolationException) {
+                // Duplicate entry
+            } else {
+                // Other SQL Exception
+            }
+        } finally {
+            try{
+                if (con != null){
+                    prst.close();
+                }
+            } catch (SQLException se){}
+            try{
+                if (con != null){
+                    con.close();
+                }
+            } catch (SQLException se){}
+            rootsEntityList.add(currentEmployee);
+        }
     }
 
     public List<RootsEntity> getAllFilteredRoots(List<GuiFilter> filtersList){

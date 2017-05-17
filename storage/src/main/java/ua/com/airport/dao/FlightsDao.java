@@ -25,7 +25,7 @@ public interface FlightsDao {
      * @param cityOfArrival
      * @return list that contains flight with selected city of arrival
      */
-    List<FlightsEntity> getFlightByCityArival(String cityOfArrival);
+    List<FlightsEntity> getFlightByCityArrival(String cityOfArrival);
 
     /**
      *
@@ -33,7 +33,7 @@ public interface FlightsDao {
      * @param cityOfDeparture
      * @return list that contains flight with selected city of departure and arrival
      */
-    List<FlightsEntity> getFlightByDepartureArival(String cityOfArrival, String cityOfDeparture);
+    List<FlightsEntity> getFlightByDepartureArrival(String cityOfArrival, String cityOfDeparture);
 
     /**
      *
@@ -41,9 +41,9 @@ public interface FlightsDao {
      */
     List<String> getAllFightNumbers();
 
-    void deleteFLight(FlightsEntity flightsEntity);
+    void deleteFLight(int flightsEntity);
 
     void createFlight(FlightsEntity flightsEntity);
 
-    void updateFlight(int id);
+    void updateFlight(FlightsEntity id);
 }

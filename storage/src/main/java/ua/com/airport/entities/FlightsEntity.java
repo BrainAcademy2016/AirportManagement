@@ -18,7 +18,20 @@ public class FlightsEntity {
     public FlightsEntity(){
     }
 
-    public FlightsEntity(String arrTime, String depTime, String flightNumber, String flightStatus, String gate, String terminal, String departureCity, String arrivalCity, String classType, Double price) {
+    public FlightsEntity(String text, String departureCityText, String arrivalCityText, String classFlightText, String priceText, String statusText){
+    }
+
+    public FlightsEntity(String arrivalTime, String departureTime, String flightNumber, String flightStatus, String gate, String terminal, String cityOfDeparture, String cityOfArrival, String classType, Double classPrice) {
+        this.arrivalTime =  new SimpleStringProperty(arrivalTime);
+        this.departureTime =  new SimpleStringProperty(departureTime);
+        this.flightNumber =  new SimpleStringProperty(flightNumber);
+        this.flightStatus =  new SimpleStringProperty(flightStatus);
+        this.gate =  new SimpleStringProperty(gate);
+        this.terminal =  new SimpleStringProperty(terminal);
+        this.cityOfDeparture =  new SimpleStringProperty(cityOfDeparture);
+        this.cityOfArrival =  new SimpleStringProperty(cityOfArrival);
+        this.classType = new SimpleStringProperty(classType);
+        this.classPrice = new SimpleDoubleProperty(classPrice);
     }
 
     public FlightsEntity(int id, String arrivalTime, String departureTime, String flightNumber, String flightStatus, String gate, String terminal, String cityOfDeparture, String cityOfArrival, String classType, Double classPrice) {

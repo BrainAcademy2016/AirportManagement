@@ -10,8 +10,10 @@ public class RootsEntity {
     private SimpleStringProperty login;
     private SimpleStringProperty password;
 
-    public RootsEntity(String text, String loginText, String passwordText){
-
+    public RootsEntity(String rootName, String login, String password){
+        this.rootName = new SimpleStringProperty(rootName);
+        this.login = new SimpleStringProperty(login);
+        this.password =new SimpleStringProperty(password);
     }
 
     public RootsEntity (int idRoots, String rootName, String login, String password){
@@ -26,7 +28,7 @@ public class RootsEntity {
     }
 
     public void setId(int id) {
-        this.id.set(id);
+        this.id = new SimpleIntegerProperty(id);
     }
 
     public String getRootName() {
@@ -34,7 +36,7 @@ public class RootsEntity {
     }
 
     public void setRootName(String rootName) {
-        this.rootName.set(rootName);
+        this.rootName = new SimpleStringProperty(rootName);
     }
 
     public String getLogin() {
@@ -42,7 +44,7 @@ public class RootsEntity {
     }
 
     public void setLogin(String login) {
-        this.login.set(login);
+        this.login = new SimpleStringProperty(login);
     }
 
     public String getPassword() {
@@ -50,7 +52,7 @@ public class RootsEntity {
     }
 
     public void setPassword(String password) {
-        this.password.set(password);
+        this.password = new SimpleStringProperty(password);
     }
 
     public SimpleIntegerProperty id(){

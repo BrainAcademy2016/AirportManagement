@@ -58,7 +58,6 @@ public class UserSceneController extends Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         filtersList.add(new GuiFilter(cityFrom, "Flights", "DepartureCity", true));
         filtersList.add(new GuiFilter(cityTo, "Flights", "ArrivalCity", true));
         filtersList.add(new GuiFilter(datePickerFrom, "Flights", "DepartureTime"));
@@ -72,7 +71,6 @@ public class UserSceneController extends Controller implements Initializable {
 
 
     private void setFiltersPaneAnimation(){
-
         SplitPaneDividerSlider leftSplitPaneDividerSlider = new SplitPaneDividerSlider(centerSplitPane, 0, SplitPaneDividerSlider.Direction.LEFT, leftFilters);
 
         leftToggleButton.selectedProperty().addListener((ObservableValue<? extends Boolean> ov, Boolean t, Boolean t1) -> {
@@ -92,7 +90,6 @@ public class UserSceneController extends Controller implements Initializable {
     }
 
     private void initTableView(){
-
         numberColumn.setCellValueFactory(cellData -> {
             int index = cellData.getTableView().getItems().indexOf(cellData.getValue());
             return new SimpleStringProperty(String.valueOf((index+1)+(currentPage-1)*ROWS_PER_PAGE));
@@ -157,7 +154,7 @@ public class UserSceneController extends Controller implements Initializable {
         });
     }
 
-    private void showFlightsInfo(){
+    protected void showFlightsInfo(){
         flightsData.clear();
         FlightsDaoImpl flightsDao = new FlightsDaoImpl();
         List<FlightsEntity> flightsListDB = flightsDao.getAllFilteredFlights(filtersList);
