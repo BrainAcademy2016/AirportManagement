@@ -52,7 +52,21 @@ public class PriceDaoImpl extends DataBaseUtil implements PriceDao {
         } catch (SQLException e){
             System.out.println("Problems with connection");
         } finally {
-
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException se) { /*can't do anything */ }
+            try {
+                if (con != null) {
+                    pstmt.close();
+                }
+            } catch (SQLException se) { /*can't do anything */ }
+            try {
+                if (con != null) {
+                    rs.close();
+                }
+            } catch (SQLException se) { /*can't do anything */ }
         }
 
         return priceList;

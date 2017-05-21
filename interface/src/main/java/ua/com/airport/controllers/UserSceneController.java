@@ -11,6 +11,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ua.com.airport.MainApp;
+import ua.com.airport.daoimpl.PriceDaoImpl;
 import ua.com.airport.dbUtils.GuiFilter;
 import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
@@ -27,6 +28,7 @@ import javafx.scene.paint.Color;
 import ua.com.airport.daoimpl.FiltersDaoImpl;
 import ua.com.airport.daoimpl.FlightsDaoImpl;
 import ua.com.airport.entities.FlightsEntity;
+import ua.com.airport.entities.PassengersEntity;
 import ua.com.airport.entities.PriceEntity;
 import ua.com.airport.utils.SplitPaneDividerSlider;
 import ua.com.airport.entities.RootsEntity;
@@ -213,6 +215,8 @@ public class UserSceneController extends Controller implements Initializable {
                 dialogStage.setScene(scene);
                 PriceController priceController = new PriceController();
                 priceController.setDialogStage(dialogStage);
+                priceController.showPriceInfo((String)selectedFlight.getFlightNumber());
+
                 dialogStage.showAndWait();
             } else {
                 FXMLLoader loader = new FXMLLoader();
@@ -243,6 +247,7 @@ public class UserSceneController extends Controller implements Initializable {
             e.printStackTrace();
         }
     }
+
 
     @Override
     public void setMainApp(MainApp mainApp){

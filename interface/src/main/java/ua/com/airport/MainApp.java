@@ -47,7 +47,6 @@ public class MainApp extends Application {
     private KeyCombination keyCombLoginClose = new KeyCodeCombination(KeyCode.ESCAPE);
     private KeyCombination keyCombLoginSend = new KeyCodeCombination(KeyCode.ENTER);
 
-
     public MainApp() {
     }
 
