@@ -19,10 +19,10 @@ import java.util.ResourceBundle;
 
 
 public class FlightAddController implements Initializable {
-    @FXML private TextField flight;
-    @FXML private TextField departureCity;
+    @FXML private ComboBox flight;
+    @FXML private ComboBox departureCity;
     @FXML private DatePicker departureDate;
-    @FXML private TextField arrivalCity;
+    @FXML private ComboBox arrivalCity;
     @FXML private DatePicker arrivalDate;
     @FXML private ComboBox classFlight;
     @FXML private TextField price;
@@ -33,12 +33,15 @@ public class FlightAddController implements Initializable {
     private Stage dialogStage;
     private boolean okClicked = false;
 
+    private FlightsDaoImpl flightsDao = new FlightsDaoImpl();
+
     private ObservableList<String> classTypeList = FXCollections.observableArrayList();
     private ObservableList<String> classStatusList = FXCollections.observableArrayList();
     private ClassTypeDaoImpl classTypeDao = new ClassTypeDaoImpl();
     private FlightStatusDaoImpl flightStatusDao = new FlightStatusDaoImpl();
     private static ObservableList<String> gateList = FXCollections.observableArrayList();
     private ObservableList<String> terminalList = FXCollections.observableArrayList();
+    private ObservableList<String> flightNumList = FXCollections.observableArrayList();
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
@@ -51,6 +54,8 @@ public class FlightAddController implements Initializable {
         terminalList.add("T1");
         terminalList.add("T2");
         terminal.setItems(terminalList);
+        flightNumList.addAll(flightsDao.getAllFightNumbers());
+        flight.setItems(flightNumList);
     }
 
     public static void fillGateList(int number) {
@@ -70,14 +75,14 @@ public class FlightAddController implements Initializable {
     @FXML
     public void handleOk() {
         if (isInputValid()){
-            FlightsEntity currentFlight = new FlightsEntity(flight.getText(), departureCity.getText(),
-                    arrivalCity.getText(),(String) classFlight.getValue(),price.getText(),(String) status.getValue());
-
-            okClicked = true;
-            FlightsDaoImpl flightsDao = new FlightsDaoImpl();
-            flightsDao.createFlight(currentFlight);
-
-            dialogStage.close();
+//            FlightsEntity currentFlight = new FlightsEntity(flight.getValue(), departureCity.getValue(),
+//                    arrivalCity.getValue(),(String) classFlight.getValue(),price.getText(),(String) status.getValue());
+//
+//            okClicked = true;
+//            FlightsDaoImpl flightsDao = new FlightsDaoImpl();
+//            flightsDao.createFlight(currentFlight);
+//
+//            dialogStage.close();
         }
     }
 
@@ -89,13 +94,13 @@ public class FlightAddController implements Initializable {
     private boolean isInputValid() {
         String errorMessage = "";
 
-        if (flight.getText() == null || flight.getText().length() == 0) {
+        if (flight.getValue() == null || ((String) flight.getValue()).length() == 0) {
             errorMessage += "No valid flight!\n";
         }
-        if (departureCity.getText() == null || departureCity.getText().length() == 0) {
+        if (departureCity.getValue() == null || ((String)departureCity.getValue()).length() == 0) {
             errorMessage += "No valid ciry!\n";
         }
-        if (arrivalCity.getText() == null || arrivalCity.getText().length() == 0) {
+        if (arrivalCity.getValue() == null || ((String)arrivalCity.getValue()).length() == 0) {
             errorMessage += "No valid city!\n";
         }
         if (classFlight.getValue() == null) {

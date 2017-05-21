@@ -61,7 +61,6 @@ public class MainApp extends Application {
     }
 
     private void showSplash(int secondsToShow) throws Exception{
-
         try {
             Stage splashStage = new Stage();
             Parent root = FXMLLoader.load(this.getClass().getResource("/view/SplashLayout.fxml"));

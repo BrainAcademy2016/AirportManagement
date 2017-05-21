@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import java.net.URL?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+
+
+<?import javafx.scene.control.Label?>
+<AnchorPane id="AnchorPane" prefHeight="200.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.com.airport.controllers.PriceController" >
+    <children>
+        <TableView fx:id="priceTable" AnchorPane.topAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+            <placeholder>
+                <Label text="No data to display"/>
+            </placeholder>
+            <columns>
+                <TableColumn fx:id="numberColumn" maxWidth="50.0" text="№"/>
+                <TableColumn fx:id="classTypeColumn" maxWidth="150" text="Class"/>
+                <TableColumn fx:id="priceColumn" maxWidth="150" text="Price"/>
+                <TableColumn fx:id="flightColumn" maxWidth="100" text="Flight Number"/>
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+        </TableView>
+    </children>
+    <stylesheets>
+        <URL value="@../styles/UserGUI.css" />
+    </stylesheets>
+</AnchorPane>

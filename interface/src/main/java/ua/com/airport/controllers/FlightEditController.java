@@ -38,12 +38,15 @@ public class FlightEditController implements Initializable {
     private FlightsEntity currentFlight;
     private boolean okClicked = false;
 
+    private FlightsDaoImpl flightsDao = new FlightsDaoImpl();
+
     private ObservableList<String> classTypeList = FXCollections.observableArrayList();
     private ObservableList<String> classStatusList = FXCollections.observableArrayList();
     private ClassTypeDaoImpl classTypeDao = new ClassTypeDaoImpl();
     private FlightStatusDaoImpl flightStatusDao = new FlightStatusDaoImpl();
     private static ObservableList<String> gateList = FXCollections.observableArrayList();
     private ObservableList<String> terminalList = FXCollections.observableArrayList();
+    private ObservableList<String> flightNumList = FXCollections.observableArrayList();
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
@@ -56,6 +59,8 @@ public class FlightEditController implements Initializable {
         terminalList.add("T1");
         terminalList.add("T2");
         terminal.setItems(terminalList);
+        flightNumList.addAll(flightsDao.getAllFightNumbers());
+        flight.setItems(flightNumList);
 
 
     }

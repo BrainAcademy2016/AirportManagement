@@ -1,5 +1,16 @@
 package ua.com.airport.controllers;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import ua.com.airport.MainApp;
 import ua.com.airport.dbUtils.GuiFilter;
 import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
@@ -16,8 +27,11 @@ import javafx.scene.paint.Color;
 import ua.com.airport.daoimpl.FiltersDaoImpl;
 import ua.com.airport.daoimpl.FlightsDaoImpl;
 import ua.com.airport.entities.FlightsEntity;
+import ua.com.airport.entities.PriceEntity;
 import ua.com.airport.utils.SplitPaneDividerSlider;
 import ua.com.airport.entities.RootsEntity;
+
+import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -25,6 +39,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class UserSceneController extends Controller implements Initializable {
+    private MainApp mainApp;
+    private KeyCombination keyCombOk = new KeyCodeCombination(KeyCode.ENTER);
 
     @FXML private ChoiceBox cityFrom;
     @FXML private ChoiceBox cityTo;
@@ -180,5 +196,56 @@ public class UserSceneController extends Controller implements Initializable {
             new FiltersDaoImpl().getFilterItems(filter);
             filter.setFilterGui();
         });
+    }
+
+    public void handlePrice(ActionEvent actionEvent) {
+        try {
+            FlightsEntity selectedFlight = flightsTable.getSelectionModel().getSelectedItem();
+            if(selectedFlight != null) {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(MainApp.class.getResource("/view/PriceLayout.fxml"));
+                AnchorPane page = (AnchorPane) loader.load();
+                Stage dialogStage = new Stage();
+                dialogStage.setTitle("Passenger adding");
+                dialogStage.initModality(Modality.WINDOW_MODAL);
+                dialogStage.initOwner(mainApp.getMainAppWindow());
+                Scene scene = new Scene(page);
+                dialogStage.setScene(scene);
+                PriceController priceController = new PriceController();
+                priceController.setDialogStage(dialogStage);
+                dialogStage.showAndWait();
+            } else {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(MainApp.class.getResource("/view/ErrorLayout.fxml"));
+                AnchorPane page = (AnchorPane) loader.load();
+                Stage dialogStage = new Stage();
+                dialogStage.setTitle("ERROR");
+                dialogStage.initModality(Modality.WINDOW_MODAL);
+                dialogStage.initOwner(mainApp.getMainAppWindow());
+                Scene scene = new Scene(page);
+                dialogStage.setScene(scene);
+                ErrorController errorController = loader.getController();
+                errorController.setDialogStage(dialogStage);
+                errorController.setErrorLabel("Please choose flight for price view!");
+
+                scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+                    @Override
+                    public void handle(KeyEvent event) {
+                        if (keyCombOk.match(event)) {
+                            errorController.handleOkError();
+                        }
+                    }
+                });
+
+                dialogStage.showAndWait();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void setMainApp(MainApp mainApp){
+        this.mainApp = mainApp;
     }
 }
