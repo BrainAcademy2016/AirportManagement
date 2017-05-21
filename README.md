@@ -1,2 +1,3 @@
+Airport management system.
 Brain Academy study project.
-Airport desktop management system
+Desktop application that is used for airport management.
