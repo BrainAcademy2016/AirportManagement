@@ -13,7 +13,7 @@ import java.util.List;
 
 public class PriceDaoImpl extends DataBaseUtil implements PriceDao {
     private Connection con;
-    private PreparedStatement pstmt;
+    private PreparedStatement prst;
     private ResultSet rs;
 
 
@@ -33,8 +33,8 @@ public class PriceDaoImpl extends DataBaseUtil implements PriceDao {
         try{
             con = getConnectionDb();
             if (con != null){
-                pstmt = con.prepareStatement(query);
-                rs = pstmt.executeQuery();
+                prst = con.prepareStatement(query);
+                rs = prst.executeQuery();
                 if (!rs.isBeforeFirst() ) {
                     System.out.println("No data");
                 }
@@ -59,7 +59,7 @@ public class PriceDaoImpl extends DataBaseUtil implements PriceDao {
             } catch (SQLException se) { /*can't do anything */ }
             try {
                 if (con != null) {
-                    pstmt.close();
+                    prst.close();
                 }
             } catch (SQLException se) { /*can't do anything */ }
             try {

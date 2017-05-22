@@ -3,10 +3,10 @@ package ua.com.airport.entities;
 import javafx.beans.property.*;
 
 public class PriceEntity {
-    private IntegerProperty id;
-    private StringProperty classType;
-    private DoubleProperty price;
-    private StringProperty flightNumber;
+    private SimpleIntegerProperty id;
+    private SimpleStringProperty classType;
+    private SimpleDoubleProperty price;
+    private SimpleStringProperty flightNumber;
 
     public PriceEntity() {
     }
@@ -64,5 +64,10 @@ public class PriceEntity {
 
     public void setFlightNumber(String flightNumber) {
         this.flightNumber.set(flightNumber);
+    }
+
+    @Override
+    public String toString(){
+        return id + " " + classType + " " + price + " " + flightNumber;
     }
 }

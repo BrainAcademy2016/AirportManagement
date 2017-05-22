@@ -14,7 +14,7 @@
                 <Label text="No data to display"/>
             </placeholder>
             <columns>
-                <TableColumn fx:id="numberColumn" maxWidth="50.0" text="№"/>
+                <TableColumn fx:id="idColumn" maxWidth="50.0" text="№"/>
                 <TableColumn fx:id="classTypeColumn" maxWidth="150" text="Class"/>
                 <TableColumn fx:id="priceColumn" maxWidth="150" text="Price"/>
                 <TableColumn fx:id="flightColumn" maxWidth="100" text="Flight Number"/>

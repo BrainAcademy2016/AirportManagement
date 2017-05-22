@@ -215,7 +215,8 @@ public class UserSceneController extends Controller implements Initializable {
                 dialogStage.setScene(scene);
                 PriceController priceController = new PriceController();
                 priceController.setDialogStage(dialogStage);
-                priceController.showPriceInfo((String)selectedFlight.getFlightNumber());
+//                priceController.showPriceInfo((String)selectedFlight.getFlightNumber());
+                priceController.setSelectedFlight((String)selectedFlight.getFlightNumber());
 
                 dialogStage.showAndWait();
             } else {
