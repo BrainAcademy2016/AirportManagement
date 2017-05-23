@@ -33,6 +33,7 @@
                     <items>
                         <AnchorPane maxHeight="50.0" minHeight="50.0" prefHeight="50.0" prefWidth="200.0" styleClass="alt-content-pane">
                             <children>
+                                <Button alignment="CENTER_LEFT" onAction="#handlePrice" prefHeight="25.0" prefWidth="100" text="Price" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="5.0" />
                                 <HBox alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="350.0" spacing="5.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0">
                                     <Button onAction="#handleAddFlight" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Add" />
                                     <Button onAction="#handleEditFlight" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Edit" />
