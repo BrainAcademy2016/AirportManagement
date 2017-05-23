@@ -87,8 +87,8 @@ public class FlightEditController implements Initializable {
             currentFlight.setDepartureTime(departureDate.getValue().toString());
             currentFlight.setCityOfArrival(arrivalCity.getValue().toString());
             currentFlight.setArrivalTime(arrivalDate.getValue().toString());
-            currentFlight.setClassType(classFlight.getValue().toString());
-            currentFlight.setClassPrice(Double.parseDouble(price.getText()));
+//            currentFlight.setClassType(classFlight.getValue().toString());
+//            currentFlight.setClassPrice(Double.parseDouble(price.getText()));
             currentFlight.setFlightStatus(status.getValue().toString());
             currentFlight.setTerminal(terminal.getValue().toString());
             currentFlight.setGate(gate.getValue().toString());

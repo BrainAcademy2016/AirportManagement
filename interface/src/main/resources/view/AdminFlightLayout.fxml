@@ -174,8 +174,8 @@
                                                         <TableColumn fx:id="arrDateColumn" maxWidth="100.0" text="Date" />
                                                     </columns>
                                                 </TableColumn>
-                                                <TableColumn fx:id="flightClassColumn" maxWidth="100.0" text="Class" />
-                                                <TableColumn fx:id="flightPriceColumn" maxWidth="100.0" text="Price, uah" />
+                                                <TableColumn fx:id="gateColumn" maxWidth="100.0" text="Class" />
+                                                <TableColumn fx:id="terminalColumn" maxWidth="100.0" text="Price, uah" />
                                                 <TableColumn fx:id="flightStatusColumn" maxWidth="110.0" text="Status" />
                                             </columns>
                                             <columnResizePolicy>

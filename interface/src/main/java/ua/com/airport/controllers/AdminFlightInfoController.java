@@ -135,8 +135,8 @@ public class AdminFlightInfoController extends UserSceneController {
                 flEditController.setFlight(markedFlight.getFlightNumber());
                 flEditController.setDepartureCity(markedFlight.getCityOfDeparture());
                 flEditController.setArrivalCity(markedFlight.getCityOfArrival());
-                flEditController.setClassFlight(markedFlight.getClassType());
-                flEditController.setPrice(markedFlight.getClassPrice().toString());
+//                flEditController.setClassFlight(markedFlight.getClassType());
+//                flEditController.setPrice(markedFlight.getClassPrice().toString());
                 flEditController.setStatus(markedFlight.getFlightStatus());
                 flEditController.setDepartureDate(LocalDate.parse(markedFlight.getDepartureTime(), formatter));
                 flEditController.setArrivalDate(LocalDate.parse(markedFlight.getArrivalTime(), formatter));

@@ -28,7 +28,7 @@ public class PriceDaoImpl extends DataBaseUtil implements PriceDao {
     public List<PriceEntity> getPricesByFlightNum(String flightNumber) {
         String query = "SELECT idPrice, ClassType, " +
                 "Price, FlightNumber FROM PriceList " +
-                "WHERE FlightNumber = " + flightNumber;
+                "WHERE FlightNumber = '" + flightNumber+"'";
         List<PriceEntity> priceList = new ArrayList<>();
         try{
             con = getConnectionDb();
@@ -41,10 +41,10 @@ public class PriceDaoImpl extends DataBaseUtil implements PriceDao {
                 while (rs.next()) {
                     int priceId = rs.getInt(1);
                     String classType = rs.getString(2);
-                    double price = rs.getDouble(3);
+                    String price = rs.getString(3);
                     String flight = rs.getString(4);
 
-                    PriceEntity currentPrice = new PriceEntity(priceId, classType, price, flight);
+                    PriceEntity currentPrice = new PriceEntity(priceId, classType, new Double(price), flight);
 
                     priceList.add(currentPrice);
                 }

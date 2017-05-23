@@ -132,8 +132,8 @@ public class FlightInfoController extends UserSceneController implements Initial
             };
         });
 
-        flightClassColumn.setCellValueFactory(
-                cellData -> cellData.getValue().classTypeProperty());
+//        flightClassColumn.setCellValueFactory(
+//                cellData -> cellData.getValue().classTypeProperty());
 
         flightPriceColumn.setCellValueFactory(new PropertyValueFactory<FlightsEntity, Double>("classPrice"));
         flightPriceColumn.setCellFactory(column -> {

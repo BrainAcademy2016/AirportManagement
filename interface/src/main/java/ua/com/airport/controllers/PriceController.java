@@ -31,14 +31,13 @@ public class PriceController implements Initializable{
     @FXML private TableColumn<PriceEntity, String> idColumn;
     @FXML private TableColumn<PriceEntity, String> classTypeColumn;
     @FXML private TableColumn priceColumn;
-    @FXML private TableColumn<PriceEntity, String > flightColumn;
+    @FXML private TableColumn<PriceEntity, String> flightColumn;
 
     private ObservableList<PriceEntity> priceData = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initTableView();
-        showPriceInfo(selectedFlight);
     }
 
     public void showPriceInfo(String flightNum) {
@@ -60,7 +59,7 @@ public class PriceController implements Initializable{
 
         classTypeColumn.setCellValueFactory(
                 cellData -> cellData.getValue().classTypeProperty());
-        priceColumn.setCellValueFactory(new PropertyValueFactory<FlightsEntity, Double>("classPrice"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<FlightsEntity, Double>("price"));
         priceColumn.setCellFactory(column -> {
             return new TableCell<FlightsEntity, Double>() {
                 @Override
