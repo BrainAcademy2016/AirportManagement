@@ -242,63 +242,62 @@ public class AdminFlightInfoController extends UserSceneController {
         }
     }
 
-    @Override
-    public void handlePrice(ActionEvent actionEvent) {
-        try {
-            FlightsEntity selectedFlight = flightsTable.getSelectionModel().getSelectedItem();
-            if(selectedFlight != null) {
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(MainApp.class.getResource("/view/PriceLayout.fxml"));
-                AnchorPane page = (AnchorPane) loader.load();
-                Stage dialogStage = new Stage();
-                dialogStage.setTitle("Class type prices");
-                dialogStage.initModality(Modality.WINDOW_MODAL);
-                dialogStage.initOwner(mainApp.getMainAppWindow());
-                Scene scene = new Scene(page);
-                dialogStage.setScene(scene);
-                PriceController priceController = loader.getController();
-                priceController.setDialogStage(dialogStage);
-                priceController.showPriceInfo(selectedFlight.getFlightNumber());
-
-                dialogStage.showAndWait();
-            } else {
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(MainApp.class.getResource("/view/ErrorLayout.fxml"));
-                AnchorPane page = (AnchorPane) loader.load();
-                Stage dialogStage = new Stage();
-                dialogStage.setTitle("ERROR");
-                dialogStage.initModality(Modality.WINDOW_MODAL);
-                dialogStage.initOwner(mainApp.getMainAppWindow());
-                Scene scene = new Scene(page);
-                dialogStage.setScene(scene);
-                ErrorController errorController = loader.getController();
-                errorController.setDialogStage(dialogStage);
-                errorController.setErrorLabel("Please choose flight for price view!");
-
-                scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
-                    @Override
-                    public void handle(KeyEvent event) {
-                        if (keyCombOk.match(event)) {
-                            errorController.handleOkError();
-                        }
-                    }
-                });
-
-                dialogStage.showAndWait();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
+//    @Override
+//    public void handlePrice(ActionEvent actionEvent) {
+//        try {
+//            FlightsEntity selectedFlight = flightsTable.getSelectionModel().getSelectedItem();
+//            if(selectedFlight != null) {
+//                FXMLLoader loader = new FXMLLoader();
+//                loader.setLocation(MainApp.class.getResource("/view/PriceLayout.fxml"));
+//                AnchorPane page = (AnchorPane) loader.load();
+//                Stage dialogStage = new Stage();
+//                dialogStage.setTitle("Class type prices");
+//                dialogStage.initModality(Modality.WINDOW_MODAL);
+//                dialogStage.initOwner(mainApp.getMainAppWindow());
+//                Scene scene = new Scene(page);
+//                dialogStage.setScene(scene);
+//                PriceController priceController = loader.getController();
+//                priceController.setDialogStage(dialogStage);
+//                priceController.showPriceInfo(selectedFlight.getFlightNumber());
+//
+//                dialogStage.showAndWait();
+//            } else {
+//                FXMLLoader loader = new FXMLLoader();
+//                loader.setLocation(MainApp.class.getResource("/view/ErrorLayout.fxml"));
+//                AnchorPane page = (AnchorPane) loader.load();
+//                Stage dialogStage = new Stage();
+//                dialogStage.setTitle("ERROR");
+//                dialogStage.initModality(Modality.WINDOW_MODAL);
+//                dialogStage.initOwner(mainApp.getMainAppWindow());
+//                Scene scene = new Scene(page);
+//                dialogStage.setScene(scene);
+//                ErrorController errorController = loader.getController();
+//                errorController.setDialogStage(dialogStage);
+//                errorController.setErrorLabel("Please choose flight for price view!");
+//
+//                scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+//                    @Override
+//                    public void handle(KeyEvent event) {
+//                        if (keyCombOk.match(event)) {
+//                            errorController.handleOkError();
+//                        }
+//                    }
+//                });
+//
+//                dialogStage.showAndWait();
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
     @Override
     public void setMainApp(MainApp mainApp) {
-        this.mainApp = (mainApp);
+        this.mainApp = mainApp;
     }
 
     @Override
     public MainApp getMainApp() {
-        return mainApp;
+        return this.mainApp;
     }
 
     public static int getGateNumber() {

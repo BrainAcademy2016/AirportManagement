@@ -10,6 +10,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import ua.com.airport.MainApp;
 import ua.com.airport.daoimpl.PriceDaoImpl;
 import ua.com.airport.dbUtils.GuiFilter;
@@ -62,6 +63,7 @@ public class UserSceneController extends Controller implements Initializable {
     @FXML private TableColumn<FlightsEntity, String> terminalColumn;
     @FXML private TableColumn flightPriceColumn;
     @FXML private TableColumn<FlightsEntity, String> flightStatusColumn;
+    @FXML private TableColumn<FlightsEntity, String> pricesColumn;
     //@FXML private Pagination flightsPagination;
     @FXML private ToggleButton leftToggleButton;
     @FXML private SplitPane centerSplitPane;
@@ -132,6 +134,64 @@ public class UserSceneController extends Controller implements Initializable {
                 cellData -> cellData.getValue().gateProperty());
         terminalColumn.setCellValueFactory(
                 cellData -> cellData.getValue().terminalProperty());
+
+        pricesColumn.setCellValueFactory( new PropertyValueFactory<>( "DUMMY" ) );
+
+        Callback<TableColumn<FlightsEntity, String>, TableCell<FlightsEntity, String>> cellFactory =
+                new Callback<TableColumn<FlightsEntity, String>, TableCell<FlightsEntity, String>>()
+                {
+                    @Override
+                    public TableCell call( final TableColumn<FlightsEntity, String> param )
+                    {
+                        final TableCell<FlightsEntity, String> cell = new TableCell<FlightsEntity, String>()
+                        {
+                            Button btn = new Button( "Show all" );
+
+                            @Override
+                            public void updateItem( String item, boolean empty )
+                            {
+                                super.updateItem( item, empty );
+                                if ( empty )
+                                {
+                                    setGraphic( null );
+                                    setText( null );
+                                }
+                                else
+                                {
+                                    btn.setMinHeight(5);
+                                    btn.setOnAction( ( ActionEvent event ) ->
+                                    {
+                                        FlightsEntity markedFlight = getTableView().getItems().get(getIndex());
+                                        try {
+                                            FXMLLoader loader = new FXMLLoader();
+                                            loader.setLocation(MainApp.class.getResource("/view/PriceLayout.fxml"));
+                                            AnchorPane page = (AnchorPane) loader.load();
+                                            Stage dialogStage = new Stage();
+                                            dialogStage.setTitle("Class type prices");
+                                            dialogStage.initModality(Modality.WINDOW_MODAL);
+                                            dialogStage.initOwner(getMainApp().getMainAppWindow());
+                                            Scene scene = new Scene(page);
+                                            dialogStage.setScene(scene);
+                                            PriceController priceController = loader.getController();
+                                            priceController.setDialogStage(dialogStage);
+                                            priceController.showPriceInfo(markedFlight.getFlightNumber());
+                                            dialogStage.showAndWait();
+                                        } catch (IOException e){
+                                            e.printStackTrace();
+                                        }
+                                    } );
+                                    setGraphic( btn );
+                                    setText( null );
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+
+        pricesColumn.setCellFactory( cellFactory );
+        pricesColumn.setStyle( "-fx-alignment: CENTER;");
+
     }
 
     protected void showFlightsInfo(){
@@ -162,55 +222,59 @@ public class UserSceneController extends Controller implements Initializable {
         });
     }
 
-    public void handlePrice(ActionEvent actionEvent) {
-        try {
-            FlightsEntity selectedFlight = flightsTable.getSelectionModel().getSelectedItem();
-            if(selectedFlight != null) {
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(MainApp.class.getResource("/view/PriceLayout.fxml"));
-                AnchorPane page = (AnchorPane) loader.load();
-                Stage dialogStage = new Stage();
-                dialogStage.setTitle("Class type prices");
-                dialogStage.initModality(Modality.WINDOW_MODAL);
-                dialogStage.initOwner(mainApp.getMainAppWindow());
-                Scene scene = new Scene(page);
-                dialogStage.setScene(scene);
-                PriceController priceController = loader.getController();
-                priceController.setDialogStage(dialogStage);
-//                priceController.showPriceInfo((String)selectedFlight.getFlightNumber());
-                priceController.showPriceInfo(selectedFlight.getFlightNumber());
+//    public void handlePrice(ActionEvent actionEvent) {
+//        try {
+//            FlightsEntity selectedFlight = flightsTable.getSelectionModel().getSelectedItem();
+//            if(selectedFlight != null) {
+//                FXMLLoader loader = new FXMLLoader();
+//                loader.setLocation(MainApp.class.getResource("/view/PriceLayout.fxml"));
+//                AnchorPane page = (AnchorPane) loader.load();
+//                Stage dialogStage = new Stage();
+//                dialogStage.setTitle("Class type prices");
+//                dialogStage.initModality(Modality.WINDOW_MODAL);
+//                dialogStage.initOwner(mainApp.getMainAppWindow());
+//                Scene scene = new Scene(page);
+//                dialogStage.setScene(scene);
+//                PriceController priceController = loader.getController();
+//                priceController.setDialogStage(dialogStage);
+////                priceController.showPriceInfo((String)selectedFlight.getFlightNumber());
+//                priceController.showPriceInfo(selectedFlight.getFlightNumber());
+//
+//                dialogStage.showAndWait();
+//            } else {
+//                FXMLLoader loader = new FXMLLoader();
+//                loader.setLocation(MainApp.class.getResource("/view/ErrorLayout.fxml"));
+//                AnchorPane page = (AnchorPane) loader.load();
+//                Stage dialogStage = new Stage();
+//                dialogStage.setTitle("ERROR");
+//                dialogStage.initModality(Modality.WINDOW_MODAL);
+//                dialogStage.initOwner(mainApp.getMainAppWindow());
+//                Scene scene = new Scene(page);
+//                dialogStage.setScene(scene);
+//                ErrorController errorController = loader.getController();
+//                errorController.setDialogStage(dialogStage);
+//                errorController.setErrorLabel("Please choose flight for price view!");
+//
+//                scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+//                    @Override
+//                    public void handle(KeyEvent event) {
+//                        if (keyCombOk.match(event)) {
+//                            errorController.handleOkError();
+//                        }
+//                    }
+//                });
+//
+//                dialogStage.showAndWait();
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-                dialogStage.showAndWait();
-            } else {
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(MainApp.class.getResource("/view/ErrorLayout.fxml"));
-                AnchorPane page = (AnchorPane) loader.load();
-                Stage dialogStage = new Stage();
-                dialogStage.setTitle("ERROR");
-                dialogStage.initModality(Modality.WINDOW_MODAL);
-                dialogStage.initOwner(mainApp.getMainAppWindow());
-                Scene scene = new Scene(page);
-                dialogStage.setScene(scene);
-                ErrorController errorController = loader.getController();
-                errorController.setDialogStage(dialogStage);
-                errorController.setErrorLabel("Please choose flight for price view!");
-
-                scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
-                    @Override
-                    public void handle(KeyEvent event) {
-                        if (keyCombOk.match(event)) {
-                            errorController.handleOkError();
-                        }
-                    }
-                });
-
-                dialogStage.showAndWait();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    @Override
+    public MainApp getMainApp() {
+        return this.mainApp;
     }
-
 
     @Override
     public void setMainApp(MainApp mainApp){

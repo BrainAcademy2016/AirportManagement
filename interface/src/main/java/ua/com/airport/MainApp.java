@@ -30,7 +30,7 @@ public class MainApp extends Application {
     private final String APP_NAME = "Air-flight management system";
     private final String APP_ICON = "images/brain_logo_32.png";
     private final int WINDOW_HEIGHT = 700;
-    private final int WINDOW_WIDTH = 1024;
+    private final int WINDOW_WIDTH = 1100;
 
     // App users Scenes
     private final String DEFAULT_USER = "/view/UserScene.fxml";
