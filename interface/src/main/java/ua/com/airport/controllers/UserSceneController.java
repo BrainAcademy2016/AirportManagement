@@ -71,11 +71,11 @@ public class UserSceneController extends Controller implements Initializable {
     @FXML private Button resetButton;
     @FXML private VBox workIndicator;
 
-    private final int ROWS_PER_PAGE = 15;
-    private int currentPage = 1;
+    protected final int ROWS_PER_PAGE = 15;
+    protected int currentPage = 1;
 
-    private ObservableList<FlightsEntity> flightsData = FXCollections.observableArrayList();
-    private List<GuiFilter> filtersList = new ArrayList<>();
+    protected ObservableList<FlightsEntity> flightsData = FXCollections.observableArrayList();
+    protected List<GuiFilter> filtersList = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -90,7 +90,7 @@ public class UserSceneController extends Controller implements Initializable {
     }
 
 
-    private void setFiltersPaneAnimation(){
+    protected void setFiltersPaneAnimation(){
         SplitPaneDividerSlider leftSplitPaneDividerSlider = new SplitPaneDividerSlider(centerSplitPane, 0, SplitPaneDividerSlider.Direction.LEFT, leftFilters);
 
         leftToggleButton.selectedProperty().addListener((ObservableValue<? extends Boolean> ov, Boolean t, Boolean t1) -> {
@@ -215,13 +215,14 @@ public class UserSceneController extends Controller implements Initializable {
         showFlightsInfo();
     }
 
-    private void setFiltersItems(){
+    protected void setFiltersItems(){
         filtersList.forEach(filter->{
             new FiltersDaoImpl().getFilterItems(filter);
             filter.setFilterGui();
         });
     }
 
+    //Price Button onAction method
 //    public void handlePrice(ActionEvent actionEvent) {
 //        try {
 //            FlightsEntity selectedFlight = flightsTable.getSelectionModel().getSelectedItem();
