@@ -1,14 +1,18 @@
 package ua.com.airport.controllers;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ua.com.airport.controllers.FlightAddController;
@@ -20,10 +24,13 @@ import ua.com.airport.entities.RootsEntity;
 import ua.com.airport.MainApp;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Date;
+import java.util.Locale;
 
-/**
- * Created by Alish on 19.01.2017.
- */
+
 public class AdminFlightInfoController extends UserSceneController {
     private Stage stage;
     private MainApp mainApp;
@@ -31,10 +38,37 @@ public class AdminFlightInfoController extends UserSceneController {
     private KeyCombination keyCombClose = new KeyCodeCombination(KeyCode.ESCAPE);
     private KeyCombination keyCombOk = new KeyCodeCombination(KeyCode.ENTER);
 
+    private static int GATE_NUMBER = 20;
+    private static String[] TERMINAL = new String[]{"T1", "T2"};
+
+    @FXML private ChoiceBox cityFrom;
+    @FXML private ChoiceBox cityTo;
+    @FXML private DatePicker datePickerFrom;
+    @FXML private AnchorPane leftFilters;
+    @FXML private ChoiceBox seatsBox;
+    @FXML private TableView<FlightsEntity> flightsTable;
+    @FXML private TableColumn<ObservableList<FlightsEntity>, String> numberColumn;
+    @FXML private TableColumn<FlightsEntity, String> flightColumn;
+    @FXML private TableColumn<FlightsEntity, String> depCityColumn;
+    @FXML private TableColumn<FlightsEntity, String> depDateColumn;
+    // @FXML private TableColumn<FlightsEntity, String> depTimeColumn;
+    @FXML private TableColumn<FlightsEntity, String> arrCityColumn;
+    @FXML private TableColumn<FlightsEntity, String> arrDateColumn;
+    // @FXML private TableColumn<FlightsEntity, String> arrTimeColumn;
+    @FXML private TableColumn<FlightsEntity, String> flightClassColumn;
+    @FXML private TableColumn flightPriceColumn;
+    @FXML private TableColumn<FlightsEntity, String> flightStatusColumn;
+    //@FXML private Pagination flightsPagination;
+    @FXML private ToggleButton leftToggleButton;
+    @FXML private SplitPane centerSplitPane;
+    @FXML private SplitPane mainSplitPane;
+    @FXML private Button resetButton;
+    @FXML private VBox workIndicator;
+
     public void handleAddFlight(ActionEvent actionEvent) {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/AddFlight.fxml"));
+            loader.setLocation(MainApp.class.getResource("/view/AddFlight.fxml"));
             AnchorPane page = (AnchorPane) loader.load();
 
             Stage dialogStage = new Stage();
@@ -70,7 +104,7 @@ public class AdminFlightInfoController extends UserSceneController {
             FlightsEntity markedFlight = flightsTable.getSelectionModel().getSelectedItem();
             if(markedFlight != null){
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(MainApp.class.getResource("view/EditFlight.fxml"));
+                loader.setLocation(MainApp.class.getResource("/view/EditFlight.fxml"));
                 AnchorPane page = (AnchorPane) loader.load();
 
                 Stage dialogStage = new Stage();
@@ -94,20 +128,24 @@ public class AdminFlightInfoController extends UserSceneController {
                         }
                     }
                 });
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+                formatter = formatter.withLocale(new Locale("en", "UA"));
 
                 flEditController.setCurrentFlight(markedFlight);
                 flEditController.setFlight(markedFlight.getFlightNumber());
                 flEditController.setDepartureCity(markedFlight.getCityOfDeparture());
                 flEditController.setArrivalCity(markedFlight.getCityOfArrival());
-                flEditController.setClassFlight(markedFlight.getClassType());
-         //       flEditController.setPrice(markedFlight.getClassPrice());
+//                flEditController.setClassFlight(markedFlight.getClassType());
+//                flEditController.setPrice(markedFlight.getClassPrice().toString());
                 flEditController.setStatus(markedFlight.getFlightStatus());
+                flEditController.setDepartureDate(LocalDate.parse(markedFlight.getDepartureTime(), formatter));
+                flEditController.setArrivalDate(LocalDate.parse(markedFlight.getArrivalTime(), formatter));
 
                 dialogStage.showAndWait();
                 showFlightsInfo();
             } else {
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(MainApp.class.getResource("view/ErrorLayout.fxml"));
+                loader.setLocation(MainApp.class.getResource("/view/ErrorLayout.fxml"));
                 AnchorPane page = (AnchorPane) loader.load();
                 Stage dialogStage = new Stage();
                 dialogStage.setTitle("ERROR");
@@ -141,7 +179,7 @@ public class AdminFlightInfoController extends UserSceneController {
             FlightsEntity markedEmployee = flightsTable.getSelectionModel().getSelectedItem();
             if (markedEmployee != null) {
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(MainApp.class.getResource("view/DeleteFlight.fxml"));
+                loader.setLocation(MainApp.class.getResource("/view/DeleteFlight.fxml"));
                 AnchorPane page = (AnchorPane) loader.load();
 
                 Stage dialogStage = new Stage();
@@ -205,6 +243,55 @@ public class AdminFlightInfoController extends UserSceneController {
     }
 
     @Override
+    public void handlePrice(ActionEvent actionEvent) {
+        try {
+            FlightsEntity selectedFlight = flightsTable.getSelectionModel().getSelectedItem();
+            if(selectedFlight != null) {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(MainApp.class.getResource("/view/PriceLayout.fxml"));
+                AnchorPane page = (AnchorPane) loader.load();
+                Stage dialogStage = new Stage();
+                dialogStage.setTitle("Class type prices");
+                dialogStage.initModality(Modality.WINDOW_MODAL);
+                dialogStage.initOwner(mainApp.getMainAppWindow());
+                Scene scene = new Scene(page);
+                dialogStage.setScene(scene);
+                PriceController priceController = loader.getController();
+                priceController.setDialogStage(dialogStage);
+                priceController.showPriceInfo(selectedFlight.getFlightNumber());
+
+                dialogStage.showAndWait();
+            } else {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(MainApp.class.getResource("/view/ErrorLayout.fxml"));
+                AnchorPane page = (AnchorPane) loader.load();
+                Stage dialogStage = new Stage();
+                dialogStage.setTitle("ERROR");
+                dialogStage.initModality(Modality.WINDOW_MODAL);
+                dialogStage.initOwner(mainApp.getMainAppWindow());
+                Scene scene = new Scene(page);
+                dialogStage.setScene(scene);
+                ErrorController errorController = loader.getController();
+                errorController.setDialogStage(dialogStage);
+                errorController.setErrorLabel("Please choose flight for price view!");
+
+                scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+                    @Override
+                    public void handle(KeyEvent event) {
+                        if (keyCombOk.match(event)) {
+                            errorController.handleOkError();
+                        }
+                    }
+                });
+
+                dialogStage.showAndWait();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void setMainApp(MainApp mainApp) {
         this.mainApp = (mainApp);
     }
@@ -214,6 +301,11 @@ public class AdminFlightInfoController extends UserSceneController {
         return mainApp;
     }
 
+    public static int getGateNumber() {
+        return GATE_NUMBER;
+    }
 
-
+    public String[] getTERMINAL() {
+        return TERMINAL;
+    }
 }

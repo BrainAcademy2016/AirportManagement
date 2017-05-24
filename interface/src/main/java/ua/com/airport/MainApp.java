@@ -28,14 +28,14 @@ public class MainApp extends Application {
 
     // Parameters of main app Window
     private final String APP_NAME = "Air-flight management system";
-    private final String APP_ICON = "ua/com/airport/resources/images/brain_logo_32.png";
+    private final String APP_ICON = "images/brain_logo_32.png";
     private final int WINDOW_HEIGHT = 700;
     private final int WINDOW_WIDTH = 1024;
 
     // App users Scenes
-    private final String DEFAULT_USER = "view/UserScene.fxml";
-    private final String STAFF_USER = "view/ManagerScene.fxml";
-    private final String ADMIN_USER = "view/AdminScene.fxml";
+    private final String DEFAULT_USER = "/view/UserScene.fxml";
+    private final String STAFF_USER = "/view/ManagerScene.fxml";
+    private final String ADMIN_USER = "/view/AdminScene.fxml";
 
     // App fields
     private Stage mainAppWindow;
@@ -46,7 +46,6 @@ public class MainApp extends Application {
     private KeyCombination keyCombLoginShow = new KeyCodeCombination(KeyCode.L, KeyCombination.CONTROL_DOWN);
     private KeyCombination keyCombLoginClose = new KeyCodeCombination(KeyCode.ESCAPE);
     private KeyCombination keyCombLoginSend = new KeyCodeCombination(KeyCode.ENTER);
-
 
     public MainApp() {
     }
@@ -61,10 +60,9 @@ public class MainApp extends Application {
     }
 
     private void showSplash(int secondsToShow) throws Exception{
-
         try {
             Stage splashStage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("view/SplashLayout.fxml"));
+            Parent root = FXMLLoader.load(this.getClass().getResource("/view/SplashLayout.fxml"));
 
             FadeTransition startFade = new FadeTransition(Duration.millis(2000), root);
             startFade.setFromValue(0.0);
@@ -157,7 +155,7 @@ public class MainApp extends Application {
     public boolean showLoginDialog() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/LoginDialog.fxml"));
+            loader.setLocation(MainApp.class.getResource("/view/LoginDialog.fxml"));
             GridPane page = (GridPane) loader.load();
 
             Stage dialogStage = new Stage();

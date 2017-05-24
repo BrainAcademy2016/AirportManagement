@@ -1,8 +1,8 @@
 package ua.com.airport.daoimpl;
 
 import ua.com.airport.dbUtils.DataBaseUtil;
-import ua.com.airport.dao.ClassTypeDao;
-import ua.com.airport.entities.ClassTypeEntity;
+import ua.com.airport.dao.FlightStatusDao;
+import ua.com.airport.entities.FlightStatusEntity;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,16 +11,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassTypeDaoImpl extends DataBaseUtil implements ClassTypeDao{
+public class FlightStatusDaoImpl extends DataBaseUtil implements FlightStatusDao {
     private Connection con;
     private PreparedStatement prst;
     private ResultSet rs;
-    private String query = "SELECT ClassName FROM ClassType";
+    private String query = "SELECT StatusName FROM FlightStatus";
 
-    private List<String> classTypeList = new ArrayList<>();
+    private List<String> flightStatusList = new ArrayList<>();
 
     @Override
-    public List<String> getClassType() {
+    public List<String> getFlightStatus() {
         try {
             con = getConnectionDb();
             if (con != null) {
@@ -31,7 +31,7 @@ public class ClassTypeDaoImpl extends DataBaseUtil implements ClassTypeDao{
                 }
                 while (rs.next()) {
                     String className = rs.getString(1);
-                    classTypeList.add(className);
+                    flightStatusList.add(className);
                 }
             }
         } catch (SQLException sqlE) {
@@ -54,21 +54,21 @@ public class ClassTypeDaoImpl extends DataBaseUtil implements ClassTypeDao{
             } catch (SQLException se) { /*can't do anything */ }
 
         }
-        return classTypeList;
+        return flightStatusList;
     }
 
     @Override
-    public void deleteClassType(String className) {
-
-    }
-
-    @Override
-    public void createClassType(ClassTypeEntity classTypeEntity) {
+    public void deleteFlightStatus(String flightStatus) {
 
     }
 
     @Override
-    public void updateClassType(ClassTypeEntity classTypeEntity) {
+    public void createFlightStatus(FlightStatusEntity flightStatusEntity) {
+
+    }
+
+    @Override
+    public void updateFlightStatus(FlightStatusEntity flightStatusEntity) {
 
     }
 }

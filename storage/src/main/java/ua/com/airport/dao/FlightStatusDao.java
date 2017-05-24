@@ -7,7 +7,7 @@ public interface FlightStatusDao {
     /**
      * @return list that contains all flight statuses
      */
-    List<FlightStatusEntity> getFlightStatus();
+    List<String> getFlightStatus();
 
     void deleteFlightStatus(String flightStatus);
 

@@ -1,6 +1,18 @@
 package ua.com.airport.controllers;
 
-import ua.com.airport.GuiFilter;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import ua.com.airport.MainApp;
+import ua.com.airport.daoimpl.PriceDaoImpl;
+import ua.com.airport.dbUtils.GuiFilter;
 import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -16,8 +28,12 @@ import javafx.scene.paint.Color;
 import ua.com.airport.daoimpl.FiltersDaoImpl;
 import ua.com.airport.daoimpl.FlightsDaoImpl;
 import ua.com.airport.entities.FlightsEntity;
+import ua.com.airport.entities.PassengersEntity;
+import ua.com.airport.entities.PriceEntity;
 import ua.com.airport.utils.SplitPaneDividerSlider;
 import ua.com.airport.entities.RootsEntity;
+
+import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -25,14 +41,15 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class UserSceneController extends Controller implements Initializable {
+    private MainApp mainApp;
+    private KeyCombination keyCombOk = new KeyCodeCombination(KeyCode.ENTER);
 
     @FXML private ChoiceBox cityFrom;
     @FXML private ChoiceBox cityTo;
     @FXML private DatePicker datePickerFrom;
     @FXML private AnchorPane leftFilters;
     @FXML private ChoiceBox seatsBox;
-    @FXML
-    TableView<FlightsEntity> flightsTable;
+    @FXML private TableView<FlightsEntity> flightsTable;
     @FXML private TableColumn<ObservableList<FlightsEntity>, String> numberColumn;
     @FXML private TableColumn<FlightsEntity, String> flightColumn;
     @FXML private TableColumn<FlightsEntity, String> depCityColumn;
@@ -41,7 +58,8 @@ public class UserSceneController extends Controller implements Initializable {
     @FXML private TableColumn<FlightsEntity, String> arrCityColumn;
     @FXML private TableColumn<FlightsEntity, String> arrDateColumn;
    // @FXML private TableColumn<FlightsEntity, String> arrTimeColumn;
-    @FXML private TableColumn<FlightsEntity, String> flightClassColumn;
+    @FXML private TableColumn<FlightsEntity, String> gateColumn;
+    @FXML private TableColumn<FlightsEntity, String> terminalColumn;
     @FXML private TableColumn flightPriceColumn;
     @FXML private TableColumn<FlightsEntity, String> flightStatusColumn;
     //@FXML private Pagination flightsPagination;
@@ -59,11 +77,9 @@ public class UserSceneController extends Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         filtersList.add(new GuiFilter(cityFrom, "Flights", "DepartureCity", true));
         filtersList.add(new GuiFilter(cityTo, "Flights", "ArrivalCity", true));
         filtersList.add(new GuiFilter(datePickerFrom, "Flights", "DepartureTime"));
-        filtersList.add(new GuiFilter(seatsBox, "PriceList", "ClassType", true));
 
         setFiltersPaneAnimation();
         setFiltersItems();
@@ -73,7 +89,6 @@ public class UserSceneController extends Controller implements Initializable {
 
 
     private void setFiltersPaneAnimation(){
-
         SplitPaneDividerSlider leftSplitPaneDividerSlider = new SplitPaneDividerSlider(centerSplitPane, 0, SplitPaneDividerSlider.Direction.LEFT, leftFilters);
 
         leftToggleButton.selectedProperty().addListener((ObservableValue<? extends Boolean> ov, Boolean t, Boolean t1) -> {
@@ -93,12 +108,13 @@ public class UserSceneController extends Controller implements Initializable {
     }
 
     private void initTableView(){
-
         numberColumn.setCellValueFactory(cellData -> {
             int index = cellData.getTableView().getItems().indexOf(cellData.getValue());
             return new SimpleStringProperty(String.valueOf((index+1)+(currentPage-1)*ROWS_PER_PAGE));
         });
         numberColumn.setSortable(false);
+
+        numberColumn.setPrefWidth(45);
 
         flightColumn.setCellValueFactory(
                 cellData -> cellData.getValue().flightNumberProperty());
@@ -112,53 +128,13 @@ public class UserSceneController extends Controller implements Initializable {
                 cellData -> cellData.getValue().arrivalTimeProperty());
         flightStatusColumn.setCellValueFactory(
                 cellData -> cellData.getValue().flightStatusProperty());
-        flightStatusColumn.setCellFactory(column -> {
-                    return new TableCell<FlightsEntity, String>() {
-                        @Override
-                        protected void updateItem(String item, boolean empty) {
-                            super.updateItem(item, empty);
-                            setText(item);
-                            if (item == null || empty) {
-                                setText("");
-                                setStyle("");
-                            }
-                            if (item != null) {
-                                if (item.equals("In process")){
-                                    setTextFill(Color.WHITE);
-                                    setStyle("-fx-background-color: green; -fx-border-color: grey");
-                                } else {
-                                    setTextFill(Color.BLACK);
-                                    setStyle("");
-                                }
-
-                            }
-                        }
-                    };
-                });
-
-        flightClassColumn.setCellValueFactory(
-                cellData -> cellData.getValue().classTypeProperty());
-
-        flightPriceColumn.setCellValueFactory(new PropertyValueFactory<FlightsEntity, Double>("classPrice"));
-        flightPriceColumn.setCellFactory(column -> {
-            return new TableCell<FlightsEntity, Double>() {
-                @Override
-                protected void updateItem(Double item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (item == null || empty){
-                        setText("");
-                    }
-                    if(item != null){
-                        DecimalFormat df = new DecimalFormat("0.00");
-                        setText(String.valueOf(df.format(item)));
-                    }
-
-                }
-            };
-        });
+        gateColumn.setCellValueFactory(
+                cellData -> cellData.getValue().gateProperty());
+        terminalColumn.setCellValueFactory(
+                cellData -> cellData.getValue().terminalProperty());
     }
 
-    public void showFlightsInfo(){
+    protected void showFlightsInfo(){
         flightsData.clear();
         FlightsDaoImpl flightsDao = new FlightsDaoImpl();
         List<FlightsEntity> flightsListDB = flightsDao.getAllFilteredFlights(filtersList);
@@ -184,5 +160,60 @@ public class UserSceneController extends Controller implements Initializable {
             new FiltersDaoImpl().getFilterItems(filter);
             filter.setFilterGui();
         });
+    }
+
+    public void handlePrice(ActionEvent actionEvent) {
+        try {
+            FlightsEntity selectedFlight = flightsTable.getSelectionModel().getSelectedItem();
+            if(selectedFlight != null) {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(MainApp.class.getResource("/view/PriceLayout.fxml"));
+                AnchorPane page = (AnchorPane) loader.load();
+                Stage dialogStage = new Stage();
+                dialogStage.setTitle("Class type prices");
+                dialogStage.initModality(Modality.WINDOW_MODAL);
+                dialogStage.initOwner(mainApp.getMainAppWindow());
+                Scene scene = new Scene(page);
+                dialogStage.setScene(scene);
+                PriceController priceController = loader.getController();
+                priceController.setDialogStage(dialogStage);
+//                priceController.showPriceInfo((String)selectedFlight.getFlightNumber());
+                priceController.showPriceInfo(selectedFlight.getFlightNumber());
+
+                dialogStage.showAndWait();
+            } else {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(MainApp.class.getResource("/view/ErrorLayout.fxml"));
+                AnchorPane page = (AnchorPane) loader.load();
+                Stage dialogStage = new Stage();
+                dialogStage.setTitle("ERROR");
+                dialogStage.initModality(Modality.WINDOW_MODAL);
+                dialogStage.initOwner(mainApp.getMainAppWindow());
+                Scene scene = new Scene(page);
+                dialogStage.setScene(scene);
+                ErrorController errorController = loader.getController();
+                errorController.setDialogStage(dialogStage);
+                errorController.setErrorLabel("Please choose flight for price view!");
+
+                scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+                    @Override
+                    public void handle(KeyEvent event) {
+                        if (keyCombOk.match(event)) {
+                            errorController.handleOkError();
+                        }
+                    }
+                });
+
+                dialogStage.showAndWait();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public void setMainApp(MainApp mainApp){
+        this.mainApp = mainApp;
     }
 }

@@ -12,16 +12,25 @@ public class FlightsEntity {
     private StringProperty terminal;
     private StringProperty cityOfDeparture;
     private StringProperty cityOfArrival;
-    private StringProperty classType;
-    private DoubleProperty classPrice;
+
+    public FlightsEntity(){
+    }
 
     public FlightsEntity(String text, String departureCityText, String arrivalCityText, String classFlightText, String priceText, String statusText){
     }
 
-    public FlightsEntity(String arrTime, String depTime, String flightNumber, String flightStatus, String gate, String terminal, String departureCity, String arrivalCity, String classType, Double price) {
+    public FlightsEntity(String arrivalTime, String departureTime, String flightNumber, String flightStatus, String gate, String terminal, String cityOfDeparture, String cityOfArrival) {
+        this.arrivalTime =  new SimpleStringProperty(arrivalTime);
+        this.departureTime =  new SimpleStringProperty(departureTime);
+        this.flightNumber =  new SimpleStringProperty(flightNumber);
+        this.flightStatus =  new SimpleStringProperty(flightStatus);
+        this.gate =  new SimpleStringProperty(gate);
+        this.terminal =  new SimpleStringProperty(terminal);
+        this.cityOfDeparture =  new SimpleStringProperty(cityOfDeparture);
+        this.cityOfArrival =  new SimpleStringProperty(cityOfArrival);
     }
 
-    public FlightsEntity(int id, String arrivalTime, String departureTime, String flightNumber, String flightStatus, String gate, String terminal, String cityOfDeparture, String cityOfArrival, String classType, Double classPrice) {
+    public FlightsEntity(int id, String arrivalTime, String departureTime, String flightNumber, String flightStatus, String gate, String terminal, String cityOfDeparture, String cityOfArrival) {
         this.id =  new SimpleIntegerProperty(id);
         this.arrivalTime =  new SimpleStringProperty(arrivalTime);
         this.departureTime =  new SimpleStringProperty(departureTime);
@@ -31,30 +40,6 @@ public class FlightsEntity {
         this.terminal =  new SimpleStringProperty(terminal);
         this.cityOfDeparture =  new SimpleStringProperty(cityOfDeparture);
         this.cityOfArrival =  new SimpleStringProperty(cityOfArrival);
-        this.classType = new SimpleStringProperty(classType);
-        this.classPrice = new SimpleDoubleProperty(classPrice);
-    }
-
-    public String getClassType() {
-        return classType.get();
-    }
-    public void setClassType(String classType) {
-        this.classType.set(classType);
-    }
-
-    public Double getClassPrice() {
-        return classPrice.get();
-    }
-    public void setClassPrice(Double classPrice) {
-        this.classPrice.set(classPrice);
-    }
-
-    public StringProperty classTypeProperty(){
-        return classType;
-    }
-
-    public DoubleProperty classPriceProperty(){
-        return classPrice;
     }
 
     public int getId() {

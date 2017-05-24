@@ -1,7 +1,7 @@
 package ua.com.airport.daoimpl;
 
-import ua.com.airport.GuiFilter;
-import ua.com.airport.DataBaseUtil;
+import ua.com.airport.dbUtils.GuiFilter;
+import ua.com.airport.dbUtils.DataBaseUtil;
 import ua.com.airport.dao.RootsDao;
 import ua.com.airport.entities.RootsEntity;
 
@@ -107,10 +107,10 @@ public class RootsDaoImpl extends DataBaseUtil implements RootsDao{
             System.out.printf("Connection problem");
             System.out.println(sqlE);
         } finally {
-                    try{
-                        if (con != null){
-                            prst.close();
-                        }
+            try{
+                if (con != null){
+                    prst.close();
+                }
             } catch (SQLException se){}
             try{
                 if (con != null){

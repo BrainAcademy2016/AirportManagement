@@ -1,4 +1,4 @@
-package ua.com.airport;
+package ua.com.airport.dbUtils;
 
 import javafx.scene.control.Alert;
 

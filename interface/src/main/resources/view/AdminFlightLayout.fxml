@@ -29,18 +29,16 @@
     <children>
         <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <SplitPane fx:id="mainSplitPane" dividerPositions="0.01" focusTraversable="true" orientation="VERTICAL" prefHeight="600.0" prefWidth="800.0">
+                <SplitPane fx:id="mainSplitPane" dividerPositions="0.01, 0.95" focusTraversable="true" orientation="VERTICAL" prefHeight="600.0" prefWidth="800.0">
                     <items>
                         <AnchorPane maxHeight="50.0" minHeight="50.0" prefHeight="50.0" prefWidth="200.0" styleClass="alt-content-pane">
                             <children>
-                                <HBox alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="350.0" spacing="5.0" AnchorPane.rightAnchor="320.0" AnchorPane.topAnchor="5.0">
-                                   <children>
-                                       <Button onAction="#handleAddFlight" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Add" />
-                                       <Button onAction="#handleEditFlight" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Edit" />
-                                       <Button onAction="#handleDeleteFlight" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Delete" />
-                                   </children>
+                                <Button alignment="CENTER_LEFT" onAction="#handlePrice" prefHeight="25.0" prefWidth="100" text="Price" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="5.0" />
+                                <HBox alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="350.0" spacing="5.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0">
+                                    <Button onAction="#handleAddFlight" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Add" />
+                                    <Button onAction="#handleEditFlight" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Edit" />
+                                    <Button onAction="#handleDeleteFlight" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Delete" />
                                 </HBox>
-                                <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="300.0" text="Detail passenger information" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
                             </children>
                         </AnchorPane>
                         <SplitPane fx:id="centerSplitPane" dividerPositions="0.2, 1.0" focusTraversable="true" prefHeight="160.0" prefWidth="200.0">
@@ -177,8 +175,8 @@
                                                         <TableColumn fx:id="arrDateColumn" maxWidth="100.0" text="Date" />
                                                     </columns>
                                                 </TableColumn>
-                                                <TableColumn fx:id="flightClassColumn" maxWidth="100.0" text="Class" />
-                                                <TableColumn fx:id="flightPriceColumn" maxWidth="100.0" text="Price, uah" />
+                                                <TableColumn fx:id="gateColumn" maxWidth="100.0" text="Class" />
+                                                <TableColumn fx:id="terminalColumn" maxWidth="100.0" text="Price, uah" />
                                                 <TableColumn fx:id="flightStatusColumn" maxWidth="110.0" text="Status" />
                                             </columns>
                                             <columnResizePolicy>

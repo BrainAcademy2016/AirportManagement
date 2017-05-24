@@ -18,7 +18,7 @@
 
     <ImageView id="boxImage" GridPane.columnIndex="0" GridPane.rowIndex="0">
         <image>
-            <Image url="@../resources/images/plain_icon.png" />
+            <Image url="/images/plain_icon.png" />
         </image>
     </ImageView>
 
