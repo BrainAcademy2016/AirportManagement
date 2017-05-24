@@ -33,7 +33,7 @@
                     <items>
                         <AnchorPane maxHeight="50.0" minHeight="50.0" prefHeight="50.0" prefWidth="200.0" styleClass="alt-content-pane">
                             <children>
-                                <Button alignment="CENTER_LEFT" onAction="#handlePrice" prefHeight="25.0" prefWidth="100" text="Price" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="5.0" />
+                                <Button onAction="#handlePrice" prefHeight="25.0" prefWidth="100" text="Price" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="12.0" />
                                 <HBox alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="350.0" spacing="5.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0">
                                     <Button onAction="#handleAddFlight" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Add" />
                                     <Button onAction="#handleEditFlight" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Edit" />
@@ -114,41 +114,10 @@
                                                </GridPane>
                                            </children>
                                         </AnchorPane>
-                                        <AnchorPane AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="250.0">
+                                        <HBox alignment="center" spacing="10" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                                            <children>
-                                               <GridPane id="myGrid" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="30.0">
-                                                   <columnConstraints>
-                                                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="20.0" />
-                                                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                   </columnConstraints>
-                                                   <rowConstraints>
-                                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                   </rowConstraints>
-                                                   <children>
-                                                       <Label text="Seats" GridPane.rowIndex="1" />
-                                                       <ChoiceBox fx:id="seatsBox" maxWidth="200.0" minWidth="25.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                                    </ChoiceBox>
-                                                   </children>
-                                               </GridPane>
-                                               <GridPane id="seatsFilterHead" styleClass="Filter" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="30.0">
-                                                   <columnConstraints>
-                                                       <ColumnConstraints hgrow="SOMETIMES" minWidth="0.0" prefWidth="0.0" />
-                                                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                   </columnConstraints>
-                                                   <rowConstraints>
-                                                       <RowConstraints prefHeight="20.0" vgrow="SOMETIMES" />
-                                                   </rowConstraints>
-                                                   <children>
-                                                       <Label id="filterHead" fx:id="lastNameLabel6" text="Seats class" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                                                   </children>
-                                               </GridPane>
-                                           </children>
-                                        </AnchorPane>
-                                        <HBox alignment="center" spacing="10" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                                           <children>
-                                               <Button prefWidth="100.0" text="Search" />
-                                               <Button fx:id="resetButton" prefWidth="100.0" text="Reset" />
+                                               <Button prefWidth="100.0" text="Search" onAction="#handleSearchButton"/>
+                                               <Button fx:id="resetButton" prefWidth="100.0" text="Reset" onAction="#handleResetButton"/>
                                            </children>
                                         </HBox>
                                     </children>
