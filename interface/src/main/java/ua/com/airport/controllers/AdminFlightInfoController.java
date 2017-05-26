@@ -367,9 +367,10 @@ public class AdminFlightInfoController extends UserSceneController implements In
                                             dialogStage.initOwner(getMainApp().getMainAppWindow());
                                             Scene scene = new Scene(page);
                                             dialogStage.setScene(scene);
-                                            PriceController priceController = loader.getController();
-                                            priceController.setDialogStage(dialogStage);
-                                            priceController.showPriceInfo(markedFlight.getFlightNumber());
+                                            AdminPriceController adminPriceController = loader.getController();
+                                            adminPriceController.setDialogStage(dialogStage);
+                                            adminPriceController.setMarkedFlight(markedFlight.getFlightNumber());
+                                            adminPriceController.showPriceInfo(markedFlight.getFlightNumber());
                                             dialogStage.showAndWait();
                                         } catch (IOException e){
                                             e.printStackTrace();

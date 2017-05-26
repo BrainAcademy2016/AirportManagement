@@ -18,6 +18,12 @@ public class PriceEntity {
         this.flightNumber = new SimpleStringProperty(flightNumber);
     }
 
+    public PriceEntity(String classType, double price, String flightNumber) {
+        this.classType = new SimpleStringProperty(classType);
+        this.price = new SimpleDoubleProperty(price);
+        this.flightNumber = new SimpleStringProperty(flightNumber);
+    }
+
     public int getId() {
         return id.get();
     }

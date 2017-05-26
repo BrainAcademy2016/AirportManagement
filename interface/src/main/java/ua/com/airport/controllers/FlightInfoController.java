@@ -70,7 +70,7 @@ public class FlightInfoController extends UserSceneController implements Initial
     }
 
 
-    private void setFiltersPaneAnimation(){
+    protected void setFiltersPaneAnimation(){
         SplitPaneDividerSlider leftSplitPaneDividerSlider = new SplitPaneDividerSlider(centerSplitPane, 0, SplitPaneDividerSlider.Direction.LEFT, leftFilters);
 
         leftToggleButton.selectedProperty().addListener((ObservableValue<? extends Boolean> ov, Boolean t, Boolean t1) -> {
@@ -175,12 +175,11 @@ public class FlightInfoController extends UserSceneController implements Initial
         showFlightsInfo();
     }
 
-    private void setFiltersItems(){
+    protected void setFiltersItems(){
         filtersList.forEach(filter->{
             new FiltersDaoImpl().getFilterItems(filter);
             filter.setFilterGui();
         });
     }
-
 
 }
