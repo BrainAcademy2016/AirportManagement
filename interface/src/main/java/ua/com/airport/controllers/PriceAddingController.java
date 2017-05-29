@@ -2,23 +2,18 @@ package ua.com.airport.controllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import ua.com.airport.daoimpl.ClassTypeDaoImpl;
-import ua.com.airport.entities.FlightsEntity;
+import ua.com.airport.entities.ClassTypeEntity;
 import ua.com.airport.entities.PriceEntity;
 import ua.com.airport.daoimpl.PriceDaoImpl;
 
 import java.net.URL;
-import java.util.Observable;
 import java.util.ResourceBundle;
-
-import static javafx.application.ConditionalFeature.FXML;
 
 public class PriceAddingController implements Initializable{
     private Stage dialogStage;
@@ -27,20 +22,23 @@ public class PriceAddingController implements Initializable{
     private ObservableList<String> classList = FXCollections.observableArrayList();
     private ClassTypeDaoImpl classTypeDao = new ClassTypeDaoImpl();
 
-    @FXML private ComboBox<String> classBox;
+    @FXML private TextField classField;
     @FXML private TextField priceField;
     @FXML private TextField flightField;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        classList.addAll(classTypeDao.getClassType());
-        classBox.setItems(classList);
+//        classList.addAll(classTypeDao.getClassType());
+//        classField.setItems(classList);
     }
 
     @FXML
     public void handleOkButton() {
         if(isInputValid()){
-            PriceEntity newPriceEntity = new PriceEntity(classBox.getValue(), Double.parseDouble(priceField.getText()), flightField.getText());
+            ClassTypeEntity classTypeEntity = new ClassTypeEntity(classField.getText());
+            ClassTypeDaoImpl classTypeDao = new ClassTypeDaoImpl();
+            classTypeDao.createClassType(classTypeEntity);
+            PriceEntity newPriceEntity = new PriceEntity(classField.getText(), Double.parseDouble(priceField.getText()), flightField.getText());
             PriceDaoImpl priceDao = new PriceDaoImpl();
             priceDao.createPrice(newPriceEntity);
             okClicked = true;
@@ -56,7 +54,7 @@ public class PriceAddingController implements Initializable{
     private boolean isInputValid() {
         String errorMessage = "";
 
-        if (classBox.getValue() == null) {
+        if (classField.getText() == null) {
             errorMessage += "No valid class!\n";
         }
         if (priceField.getText() == null || priceField.getText().length() == 0) {

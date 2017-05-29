@@ -1,20 +1,22 @@
 package ua.com.airport.entities;
 
+import javafx.beans.property.SimpleStringProperty;
+
 public class ClassTypeEntity {
-    private String className;
+    private SimpleStringProperty className;
 
     public ClassTypeEntity() {
     }
 
     public ClassTypeEntity(String className) {
-        this.className = className;
+        this.className = new SimpleStringProperty(className);
     }
 
     public String getClassName() {
-        return className;
+        return className.get();
     }
 
     public void setClassName(String className) {
-        this.className = className;
+        this.className.set(className);
     }
 }

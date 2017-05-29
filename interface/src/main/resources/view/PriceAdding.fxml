@@ -20,7 +20,7 @@
             <Label text="Class" />
             <Label text="Price" GridPane.rowIndex="1" />
             <Label text="Flight" GridPane.rowIndex="2" />
-            <ComboBox fx:id="classBox" promptText="Class" GridPane.columnIndex="1" prefWidth="280.0"/>
+            <TextField fx:id="classField" promptText="Class" GridPane.columnIndex="1" prefWidth="280.0"/>
             <TextField fx:id="priceField" promptText="Price" GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="280.0" />
             <TextField fx:id="flightField" promptText="Flight" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="280.0"/>
         </children>

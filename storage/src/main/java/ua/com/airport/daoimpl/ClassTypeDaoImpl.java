@@ -64,6 +64,28 @@ public class ClassTypeDaoImpl extends DataBaseUtil implements ClassTypeDao{
 
     @Override
     public void createClassType(ClassTypeEntity classTypeEntity) {
+        String query = "INSERT INTO ClassType (ClassName) " +
+                "VALUES (?)";
+        try {
+            con = getConnectionDb();
+            prst = con.prepareStatement(query);
+            prst.setString(1, classTypeEntity.getClassName());
+            prst.executeUpdate();
+
+        } catch(SQLException sqlE) {
+            System.out.println("Connection problem");
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException se) { /*can't do anything */ }
+            try {
+                if (con != null) {
+                    prst.close();
+                }
+            } catch (SQLException se) { /*can't do anything */ }
+        }
 
     }
 
