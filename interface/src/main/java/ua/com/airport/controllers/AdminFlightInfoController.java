@@ -23,6 +23,7 @@ import javafx.util.Callback;
 import ua.com.airport.controllers.FlightAddController;
 import ua.com.airport.controllers.FlightDeleteController;
 import ua.com.airport.controllers.FlightEditController;
+import ua.com.airport.daoimpl.FlightsDaoImpl;
 import ua.com.airport.daoimpl.RootsDaoImpl;
 import ua.com.airport.dbUtils.GuiFilter;
 import ua.com.airport.entities.FlightsEntity;
@@ -105,6 +106,7 @@ public class AdminFlightInfoController extends UserSceneController implements In
             });
 
             dialogStage.showAndWait();
+            showFlightsInfo();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -129,6 +131,7 @@ public class AdminFlightInfoController extends UserSceneController implements In
                 // Передаём адресата в контроллер.
                 FlightEditController flEditController = loader.getController();
                 flEditController.setDialogStage(dialogStage);
+                flEditController.setCurrentFlight(markedFlight);
 
                 scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
                     @Override
@@ -140,18 +143,6 @@ public class AdminFlightInfoController extends UserSceneController implements In
                         }
                     }
                 });
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-                formatter = formatter.withLocale(new Locale("en", "UA"));
-
-                flEditController.setCurrentFlight(markedFlight);
-                flEditController.setFlight(markedFlight.getFlightNumber());
-                flEditController.setDepartureCity(markedFlight.getCityOfDeparture());
-                flEditController.setArrivalCity(markedFlight.getCityOfArrival());
-//                flEditController.setClassFlight(markedFlight.getClassType());
-//                flEditController.setPrice(markedFlight.getClassPrice().toString());
-                flEditController.setStatus(markedFlight.getFlightStatus());
-                flEditController.setDepartureDate(LocalDate.parse(markedFlight.getDepartureTime(), formatter));
-                flEditController.setArrivalDate(LocalDate.parse(markedFlight.getArrivalTime(), formatter));
 
                 dialogStage.showAndWait();
                 showFlightsInfo();
@@ -217,10 +208,9 @@ public class AdminFlightInfoController extends UserSceneController implements In
                 });
 
                 dialogStage.showAndWait();
-                RootsDaoImpl rootsDao = new RootsDaoImpl();
-                boolean okClicked = flDeleteController.isOkClicked();
-                if(okClicked){
-                    rootsDao.deleteRoot(markedEmployee.getId());
+                if(flDeleteController.isOkClicked()){
+                    FlightsDaoImpl flightsDao = new FlightsDaoImpl();
+                    flightsDao.deleteFLight(markedEmployee.getId());
                 }
                 showFlightsInfo();
             } else {
@@ -254,57 +244,7 @@ public class AdminFlightInfoController extends UserSceneController implements In
         }
     }
 
-    //Price Button onAction method
-//    @Override
-//    public void handlePrice(ActionEvent actionEvent) {
-//        try {
-//            FlightsEntity selectedFlight = flightsTable.getSelectionModel().getSelectedItem();
-//            if(selectedFlight != null) {
-//                FXMLLoader loader = new FXMLLoader();
-//                loader.setLocation(MainApp.class.getResource("/view/PriceLayout.fxml"));
-//                AnchorPane page = (AnchorPane) loader.load();
-//                Stage dialogStage = new Stage();
-//                dialogStage.setTitle("Class type prices");
-//                dialogStage.initModality(Modality.WINDOW_MODAL);
-//                dialogStage.initOwner(mainApp.getMainAppWindow());
-//                Scene scene = new Scene(page);
-//                dialogStage.setScene(scene);
-//                PriceController priceController = loader.getController();
-//                priceController.setDialogStage(dialogStage);
-//                priceController.showPriceInfo(selectedFlight.getFlightNumber());
-//
-//                dialogStage.showAndWait();
-//            } else {
-//                FXMLLoader loader = new FXMLLoader();
-//                loader.setLocation(MainApp.class.getResource("/view/ErrorLayout.fxml"));
-//                AnchorPane page = (AnchorPane) loader.load();
-//                Stage dialogStage = new Stage();
-//                dialogStage.setTitle("ERROR");
-//                dialogStage.initModality(Modality.WINDOW_MODAL);
-//                dialogStage.initOwner(mainApp.getMainAppWindow());
-//                Scene scene = new Scene(page);
-//                dialogStage.setScene(scene);
-//                ErrorController errorController = loader.getController();
-//                errorController.setDialogStage(dialogStage);
-//                errorController.setErrorLabel("Please choose flight for price view!");
-//
-//                scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
-//                    @Override
-//                    public void handle(KeyEvent event) {
-//                        if (keyCombOk.match(event)) {
-//                            errorController.handleOkError();
-//                        }
-//                    }
-//                });
-//
-//                dialogStage.showAndWait();
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-    private void initTableView(){
+    protected void initTableView(){
         numberColumn.setCellValueFactory(cellData -> {
             int index = cellData.getTableView().getItems().indexOf(cellData.getValue());
             return new SimpleStringProperty(String.valueOf((index+1)+(currentPage-1)*ROWS_PER_PAGE));
@@ -388,18 +328,6 @@ public class AdminFlightInfoController extends UserSceneController implements In
         pricesColumn.setCellFactory( cellFactory );
         pricesColumn.setStyle( "-fx-alignment: CENTER;");
 
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        filtersList.add(new GuiFilter(cityFrom, "Flights", "DepartureCity", true));
-        filtersList.add(new GuiFilter(cityTo, "Flights", "ArrivalCity", true));
-        filtersList.add(new GuiFilter(datePickerFrom, "Flights", "DepartureTime"));
-
-        setFiltersPaneAnimation();
-        setFiltersItems();
-        initTableView();
-        showFlightsInfo();
     }
 
     @Override

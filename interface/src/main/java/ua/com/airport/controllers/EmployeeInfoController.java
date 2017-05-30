@@ -306,8 +306,10 @@ public class EmployeeInfoController extends Controller implements Initializable 
 
     private void setFiltersItems(){
         filtersList.forEach(filter->{
-            new FiltersDaoImpl().getFilterItems(filter);
-            filter.setFilterGui();
+            if (filter.isListTypeFromDB()){
+                new FiltersDaoImpl().getFilterItems(filter);
+                filter.setFilterGui();
+            }
         });
     }
 }

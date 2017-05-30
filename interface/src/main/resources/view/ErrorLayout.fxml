@@ -6,7 +6,7 @@
 
 <AnchorPane prefHeight="100.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.com.airport.controllers.ErrorController">
     <children>
-        <Label fx:id="errorLabel" AnchorPane.topAnchor="5.0" AnchorPane.leftAnchor="10.0"/>
-        <Button layoutY="95.1875" layoutX="241.0" mnemonicParsing="false"  prefWidth="90.0" text="OK" onAction="#handleOkError"/>
+        <Label fx:id="errorLabel" AnchorPane.topAnchor="15.0" AnchorPane.leftAnchor="20.0"/>
+        <Button mnemonicParsing="false"  AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="20.0" prefWidth="90.0" text="OK" onAction="#handleOkError"/>
     </children>
 </AnchorPane>

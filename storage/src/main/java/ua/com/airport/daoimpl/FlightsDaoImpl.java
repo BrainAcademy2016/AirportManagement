@@ -92,7 +92,7 @@ public class FlightsDaoImpl extends DataBaseUtil implements FlightsDao {
 
     @Override
     public List<String> getAllFightNumbers(){
-        String query = "SELECT DISTINCT  FlightNumber FROM Flights";
+        String query = "SELECT DISTINCT FlightNumber FROM Flights";
         try {
             con = getConnectionDb();
             if (con != null){
@@ -138,18 +138,17 @@ public class FlightsDaoImpl extends DataBaseUtil implements FlightsDao {
     }
 
     @Override
-    public void deleteFLight(int flightsEntity) {
+    public void deleteFLight(int flightId) {
         String query = "DELETE FROM Flights WHERE idFlight = ?";
         try{
             con = getConnectionDb();
             if(con != null){
                 pstmt = con.prepareStatement(query);
-                //   pstmt.setInt(1, id);
+                pstmt.setInt(1, flightId);
                 pstmt.executeUpdate();
             }
         } catch (SQLException sqlE) {
             System.out.printf("Connection problem");
-            System.out.println(sqlE);
 
         } finally {
             try {
@@ -167,7 +166,7 @@ public class FlightsDaoImpl extends DataBaseUtil implements FlightsDao {
 
     @Override
     public void createFlight(FlightsEntity flightsEntity) {
-        String query = "INSERT INTO Flights (FlightNumber, "+"DepartureCity, DepartureTime, " +
+        String query = "INSERT INTO Flights (FlightNumber, DepartureCity, DepartureTime, " +
                 "ArrivalCity, ArivalTime, " +
                 "Gate, Terminal, FlightStatus)" + "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
         try {
@@ -219,7 +218,7 @@ public class FlightsDaoImpl extends DataBaseUtil implements FlightsDao {
                 pstmt.setString(6, flightsEntity.getCityOfArrival());
                 pstmt.setString(7, flightsEntity.getGate());
                 pstmt.setString(8, flightsEntity.getTerminal());
-                //     pstmt.setInt(11, get);
+                pstmt.setInt(9, flightsEntity.getId());
                 pstmt.executeUpdate();
             }
         } catch (SQLException sqlE) {

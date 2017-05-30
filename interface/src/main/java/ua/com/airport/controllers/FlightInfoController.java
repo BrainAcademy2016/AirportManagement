@@ -89,7 +89,7 @@ public class FlightInfoController extends UserSceneController implements Initial
         });
     }
 
-    private void initTableView(){
+    protected void initTableView(){
         numberColumn.setCellValueFactory(cellData -> {
             int index = cellData.getTableView().getItems().indexOf(cellData.getValue());
             return new SimpleStringProperty(String.valueOf((index+1)+(currentPage-1)*ROWS_PER_PAGE));
@@ -177,8 +177,10 @@ public class FlightInfoController extends UserSceneController implements Initial
 
     protected void setFiltersItems(){
         filtersList.forEach(filter->{
-            new FiltersDaoImpl().getFilterItems(filter);
-            filter.setFilterGui();
+            if (filter.isListTypeFromDB()){
+                new FiltersDaoImpl().getFilterItems(filter);
+                filter.setFilterGui();
+            }
         });
     }
 

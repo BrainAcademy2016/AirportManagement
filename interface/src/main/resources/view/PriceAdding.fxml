@@ -4,9 +4,13 @@
         <?import javafx.scene.control.*?>
         <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="480.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.com.airport.controllers.PriceAddingController">
+<?import javafx.geometry.Insets?>
+<AnchorPane prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.com.airport.controllers.PriceAddingController">
 <children>
-    <GridPane layoutX="-16.0" layoutY="31.0" prefHeight="400.0" prefWidth="460.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+    <GridPane layoutX="0.0" layoutY="0.0" prefHeight="160.0" prefWidth="150.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+        <padding>
+            <Insets top="20" right="20" bottom="10" left="20"/>
+        </padding>
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="175.0" minWidth="10.0" prefWidth="120.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="280.0" minWidth="10.0" prefWidth="280.0" />
@@ -25,7 +29,7 @@
             <TextField fx:id="flightField" promptText="Flight" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="280.0"/>
         </children>
     </GridPane>
-    <HBox layoutX="197.1875" layoutY="241.0" spacing="5.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+    <HBox alignment="BASELINE_CENTER" spacing="5.0" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="30.0">
         <children>
             <Button layoutX="197.1875" layoutY="241.0" mnemonicParsing="false"  prefWidth="90.0" text="OK" onAction="#handleOkButton" />
             <Button layoutX="249.375" layoutY="241.0" mnemonicParsing="false"  prefWidth="90.0" text="Cancel" onAction="#handleCancelButton" />

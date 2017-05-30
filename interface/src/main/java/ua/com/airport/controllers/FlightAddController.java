@@ -15,52 +15,32 @@ import ua.com.airport.entities.FlightsEntity;
 import ua.com.airport.entities.RootsEntity;
 
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 
 public class FlightAddController implements Initializable {
-    @FXML private ComboBox flight;
-    @FXML private ComboBox departureCity;
+
     @FXML private DatePicker departureDate;
-    @FXML private ComboBox arrivalCity;
     @FXML private DatePicker arrivalDate;
-    @FXML private ComboBox classFlight;
-    @FXML private TextField price;
+    @FXML private TextField flightTextField;
+    @FXML private TextField departureCityTextField;
+    @FXML private TextField arrivalCityTextField;
+    @FXML private TextField terminalTextField;
+    @FXML private TextField gateTextField;
     @FXML private ComboBox status;
-    @FXML private ComboBox terminal;
-    @FXML private ComboBox gate;
 
     private Stage dialogStage;
     private boolean okClicked = false;
 
-    private FlightsDaoImpl flightsDao = new FlightsDaoImpl();
-
-    private ObservableList<String> classTypeList = FXCollections.observableArrayList();
     private ObservableList<String> classStatusList = FXCollections.observableArrayList();
-    private ClassTypeDaoImpl classTypeDao = new ClassTypeDaoImpl();
     private FlightStatusDaoImpl flightStatusDao = new FlightStatusDaoImpl();
-    private static ObservableList<String> gateList = FXCollections.observableArrayList();
-    private ObservableList<String> terminalList = FXCollections.observableArrayList();
-    private ObservableList<String> flightNumList = FXCollections.observableArrayList();
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
-        classTypeList.addAll(classTypeDao.getClassType());
         classStatusList.addAll(flightStatusDao.getFlightStatus());
-        classFlight.setItems(classTypeList);
-        status.setItems(classStatusList);
-        fillGateList(AdminFlightInfoController.getGateNumber());
-        gate.setItems(gateList);
-        terminalList.add("T1");
-        terminalList.add("T2");
-        terminal.setItems(terminalList);
-        flightNumList.addAll(flightsDao.getAllFightNumbers());
-        flight.setItems(flightNumList);
-    }
-
-    public static void fillGateList(int number) {
-        for(int i = 1; i <= number; i++) {
-            gateList.add(String.valueOf(i));
+        if (!classStatusList.isEmpty()){
+            status.setItems(classStatusList);
         }
     }
 
@@ -75,14 +55,16 @@ public class FlightAddController implements Initializable {
     @FXML
     public void handleOk() {
         if (isInputValid()){
-//            FlightsEntity currentFlight = new FlightsEntity(flight.getValue(), departureCity.getValue(),
-//                    arrivalCity.getValue(),(String) classFlight.getValue(),price.getText(),(String) status.getValue());
-//
-//            okClicked = true;
-//            FlightsDaoImpl flightsDao = new FlightsDaoImpl();
-//            flightsDao.createFlight(currentFlight);
-//
-//            dialogStage.close();
+            String flightPrefix = departureCityTextField.getText().toUpperCase().substring(0,1)+arrivalCityTextField.getText().toUpperCase().substring(0,1);
+            FlightsEntity currentFlight = new FlightsEntity(
+                    arrivalDate.getValue().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
+                    departureDate.getValue().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
+                    (flightPrefix+flightTextField.getText()), status.getValue().toString(), gateTextField.getText(), terminalTextField.getText(),
+                    departureCityTextField.getText(), arrivalCityTextField.getText());
+            okClicked = true;
+            FlightsDaoImpl flightsDao = new FlightsDaoImpl();
+            flightsDao.createFlight(currentFlight);
+            dialogStage.close();
         }
     }
 
@@ -94,23 +76,34 @@ public class FlightAddController implements Initializable {
     private boolean isInputValid() {
         String errorMessage = "";
 
-        if (flight.getValue() == null || ((String) flight.getValue()).length() == 0) {
+        if (flightTextField.getText() == null || flightTextField.getText().length() == 0) {
             errorMessage += "No valid flight!\n";
         }
-        if (departureCity.getValue() == null || ((String)departureCity.getValue()).length() == 0) {
-            errorMessage += "No valid ciry!\n";
+        if (departureCityTextField.getText() == null || departureCityTextField.getText().length() == 0) {
+            errorMessage += "No valid departure city!\n";
         }
-        if (arrivalCity.getValue() == null || ((String)arrivalCity.getValue()).length() == 0) {
-            errorMessage += "No valid city!\n";
+        if (arrivalCityTextField.getText() == null || arrivalCityTextField.getText().length() == 0) {
+            errorMessage += "No valid arrival city!\n";
         }
-        if (classFlight.getValue() == null) {
-            errorMessage += "No valid city!\n";
+        if (terminalTextField.getText() == null || terminalTextField.getText().length() == 0) {
+            errorMessage += "No valid terminal!\n";
         }
-        if (price.getText() == null || price.getText().length() == 0) {
-            errorMessage += "No valid price!\n";
+        if (gateTextField.getText() == null || gateTextField.getText().length() == 0) {
+            errorMessage += "No valid gate!\n";
         }
         if (status.getValue() == null) {
             errorMessage += "No valid status!\n";
+        }
+        if (arrivalDate.getValue() == null) {
+            errorMessage += "No valid arrival date!\n";
+        }
+        if (departureDate.getValue() == null) {
+            errorMessage += "No valid departure date!\n";
+        }
+        if (departureDate.getValue() != null && arrivalDate.getValue() != null){
+            if (departureDate.getValue().compareTo(arrivalDate.getValue()) == 1){
+                errorMessage += "Departure date can't be after arrival date!\n";
+            }
         }
 
         if (errorMessage.length() == 0) {
