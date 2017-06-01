@@ -32,7 +32,7 @@
                     <items>
                         <AnchorPane maxHeight="50.0" minHeight="50.0" prefHeight="50.0" prefWidth="200.0" styleClass="alt-content-pane">
                             <children>
-                                    <HBox alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="350.0" spacing="5.0" AnchorPane.rightAnchor="10.0">
+                                    <HBox alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="350.0" spacing="5.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0">
                                        <children>
                                            <Button mnemonicParsing="false" onAction="#handleAddEmployee" prefHeight="25.0" prefWidth="100.0" text="Add" />
                                            <Button mnemonicParsing="false" onAction="#handleEditEmployee" prefHeight="25.0" prefWidth="100.0" text="Edit" />
@@ -105,7 +105,7 @@
                                                </GridPane>
                                            </children>
                                         </AnchorPane>
-                                        <HBox alignment="center" spacing="10" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                        <HBox alignment="center" spacing="10" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                                            <children>
                                                <Button onAction="#handleSearchButton" prefWidth="100.0" text="Search" />
                                                <Button fx:id="resetButton" onAction="#handleResetButton" prefWidth="100.0" text="Reset" />
@@ -116,7 +116,7 @@
                                 <AnchorPane>
                                     <children>
                                         <Label alignment="CENTER" text="Content area" textAlignment="CENTER" wrapText="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                        <TableView fx:id="employeeTable" layoutY="36.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="36.0">
+                                        <TableView fx:id="employeeTable" layoutY="36.0" AnchorPane.topAnchor="30.0" AnchorPane.leftAnchor="10.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="10.0">
                                             <placeholder>
                                                 <Label text="No data to display" />
                                             </placeholder>
