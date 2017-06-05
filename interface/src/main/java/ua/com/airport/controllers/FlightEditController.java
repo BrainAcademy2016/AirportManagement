@@ -23,48 +23,28 @@ import java.util.ResourceBundle;
 
 
 public class FlightEditController implements Initializable {
-    @FXML private ComboBox flight;
-    @FXML private ComboBox departureCity;
     @FXML private DatePicker departureDate;
-    @FXML private ComboBox arrivalCity;
     @FXML private DatePicker arrivalDate;
-    @FXML private ComboBox classFlight;
-    @FXML private TextField price;
+    @FXML private TextField flightTextField;
+    @FXML private TextField departureCityTextField;
+    @FXML private TextField arrivalCityTextField;
+    @FXML private TextField terminalTextField;
+    @FXML private TextField gateTextField;
     @FXML private ComboBox status;
-    @FXML private ComboBox terminal;
-    @FXML private ComboBox gate;
 
     private Stage dialogStage;
     private FlightsEntity currentFlight;
     private boolean okClicked = false;
 
-    private ObservableList<String> classTypeList = FXCollections.observableArrayList();
-    private ObservableList<String> classStatusList = FXCollections.observableArrayList();
-    private ClassTypeDaoImpl classTypeDao = new ClassTypeDaoImpl();
+    private ObservableList<String> statusList = FXCollections.observableArrayList();
     private FlightStatusDaoImpl flightStatusDao = new FlightStatusDaoImpl();
-    private static ObservableList<String> gateList = FXCollections.observableArrayList();
-    private ObservableList<String> terminalList = FXCollections.observableArrayList();
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
-        classTypeList.addAll(classTypeDao.getClassType());
-        classStatusList.addAll(flightStatusDao.getFlightStatus());
-        classFlight.setItems(classTypeList);
-        status.setItems(classStatusList);
-        fillGateList(AdminFlightInfoController.getGateNumber());
-        gate.setItems(gateList);
-        terminalList.add("T1");
-        terminalList.add("T2");
-        terminal.setItems(terminalList);
-
-
+        statusList.addAll(flightStatusDao.getFlightStatus());
+        status.setItems(statusList);
     }
 
-    public static void fillGateList(int number) {
-        for(int i = 1; i <= number; i++) {
-            gateList.add(String.valueOf(i));
-        }
-    }
 
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
@@ -77,21 +57,17 @@ public class FlightEditController implements Initializable {
     @FXML
     public void handleOkEdit() {
         if (isInputValid()){
-            currentFlight.setFlightNumber(flight.getValue().toString());
-            currentFlight.setCityOfDeparture(departureCity.getValue().toString());
-            currentFlight.setDepartureTime(departureDate.getValue().toString());
-            currentFlight.setCityOfArrival(arrivalCity.getValue().toString());
-            currentFlight.setArrivalTime(arrivalDate.getValue().toString());
-            currentFlight.setClassType(classFlight.getValue().toString());
-            currentFlight.setClassPrice(Double.parseDouble(price.getText()));
+            currentFlight.setFlightNumber(flightTextField.getText());
+            currentFlight.setCityOfDeparture(departureCityTextField.getText());
+            currentFlight.setDepartureTime(departureDate.getValue().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+            currentFlight.setCityOfArrival(arrivalCityTextField.getText());
+            currentFlight.setArrivalTime(arrivalDate.getValue().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
             currentFlight.setFlightStatus(status.getValue().toString());
-            currentFlight.setTerminal(terminal.getValue().toString());
-            currentFlight.setGate(gate.getValue().toString());
-
+            currentFlight.setTerminal(terminalTextField.getText());
+            currentFlight.setGate(gateTextField.getText());
             okClicked = true;
             FlightsDaoImpl flightsDao = new FlightsDaoImpl();
             flightsDao.updateFlight(currentFlight);
-
             dialogStage.close();
         }
     }
@@ -104,23 +80,34 @@ public class FlightEditController implements Initializable {
     private boolean isInputValid() {
         String errorMessage = "";
 
-        if (flight.getValue() == null || ((String) flight.getValue()).length() == 0) {
+        if (flightTextField.getText() == null || flightTextField.getText().length() == 0) {
             errorMessage += "No valid flight!\n";
         }
-      //  if (departureCity.getText() == null || departureCity.getText().length() == 0) {
-        //    errorMessage += "No valid ciry!\n";
-       // }
-        if (arrivalCity.getValue() == null || ((String)arrivalCity.getValue()).length() == 0) {
-            errorMessage += "No valid city!\n";
+        if (departureCityTextField.getText() == null || departureCityTextField.getText().length() == 0) {
+            errorMessage += "No valid departure city!\n";
         }
-        if (classFlight.getValue() == null) {
-            errorMessage += "No valid city!\n";
+        if (arrivalCityTextField.getText() == null || arrivalCityTextField.getText().length() == 0) {
+            errorMessage += "No valid arrival city!\n";
         }
-        if (price.getText() == null || price.getText().length() == 0) {
-            errorMessage += "No valid price!\n";
+        if (terminalTextField.getText() == null || terminalTextField.getText().length() == 0) {
+            errorMessage += "No valid terminal!\n";
+        }
+        if (gateTextField.getText() == null || gateTextField.getText().length() == 0) {
+            errorMessage += "No valid gate!\n";
         }
         if (status.getValue() == null) {
             errorMessage += "No valid status!\n";
+        }
+        if (arrivalDate.getValue() == null) {
+            errorMessage += "No valid arrival date!\n";
+        }
+        if (departureDate.getValue() == null) {
+            errorMessage += "No valid departure date!\n";
+        }
+        if (departureDate.getValue() != null && arrivalDate.getValue() != null){
+            if (departureDate.getValue().compareTo(arrivalDate.getValue()) == 1){
+                errorMessage += "Departure date can't be after arrival date!\n";
+            }
         }
 
         if (errorMessage.length() == 0) {
@@ -138,37 +125,22 @@ public class FlightEditController implements Initializable {
             return false;
         }
     }
+
     public FlightsEntity getCurrentFlight() {
         return currentFlight;
     }
 
-    public void setCurrentFlight(FlightsEntity currentPassenger) {
+    public void setCurrentFlight(FlightsEntity currentFlight) {
         this.currentFlight = currentFlight;
+        flightTextField.setText(this.currentFlight.getFlightNumber());
+        departureCityTextField.setText(this.currentFlight.getCityOfDeparture());
+        arrivalCityTextField.setText(this.currentFlight.getCityOfArrival());
+        terminalTextField.setText(this.currentFlight.getTerminal());
+        gateTextField.setText(this.currentFlight.getGate());
+        status.getSelectionModel().select(this.currentFlight.getFlightStatus());
+        departureDate.setValue(LocalDate.parse(this.currentFlight.getDepartureTime(), DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+        arrivalDate.setValue(LocalDate.parse(this.currentFlight.getArrivalTime(), DateTimeFormatter.ofPattern("dd.MM.yyyy")));
     }
 
-    public void setFlight(String flight) {
-        this.flight.setValue(flight);
-    }
-    public void setDepartureCity(String departureCity) {
-        this.departureCity.setValue(departureCity);
-    }
-    public void setArrivalCity(String arrivalCity) {
-        this.arrivalCity.setValue(arrivalCity);
-    }
-    public void setClassFlight(String classFlight) {
-        this.classFlight.setValue(classFlight);
-    }
-    public void setPrice(String price) {
-        this.price.setText(price);
-    }
-    public void setStatus(String status) {
-        this.status.setValue(status);
-    }
-    public void setDepartureDate(LocalDate departureDate) {
-        this.departureDate.setValue(departureDate);
-    }
-    public void setArrivalDate(LocalDate arrivalDate) {
-        this.arrivalDate.setValue(arrivalDate);
-    }
 }
 

@@ -90,7 +90,7 @@ public class EmployeeEditController implements Initializable {
         return currentEmployee;
     }
 
-    public void setCurrentEmployee(RootsEntity currentPassenger) {
+    public void setCurrentEmployee(RootsEntity currentEmployee) {
         this.currentEmployee = currentEmployee;
     }
 

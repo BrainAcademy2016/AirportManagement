@@ -12,14 +12,7 @@
          <font>
             <Font size="14.0" />
          </font>
-         <textFill>
-            <LinearGradient endX="1.0" endY="1.0" startX="1.0" startY="1.0">
-               <stops>
-                  <Stop color="#b93915" />
-                  <Stop color="WHITE" offset="1.0" />
-               </stops>
-            </LinearGradient>
-         </textFill></Label>
+      </Label>
       <Button layoutX="78.0" layoutY="51.0" mnemonicParsing="false" onAction="#handleOkDelete" prefHeight="17.0" prefWidth="64.0" text="OK" />
       <Button layoutX="168.0" layoutY="51.0" mnemonicParsing="false" onAction="#handleCancelButton" prefHeight="25.0" prefWidth="64.0" text="Cancel" />
    </children>

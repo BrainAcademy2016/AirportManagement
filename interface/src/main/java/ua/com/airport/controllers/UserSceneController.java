@@ -1,5 +1,18 @@
 package ua.com.airport.controllers;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.util.Callback;
+import ua.com.airport.MainApp;
+import ua.com.airport.daoimpl.PriceDaoImpl;
 import ua.com.airport.dbUtils.GuiFilter;
 import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
@@ -16,8 +29,12 @@ import javafx.scene.paint.Color;
 import ua.com.airport.daoimpl.FiltersDaoImpl;
 import ua.com.airport.daoimpl.FlightsDaoImpl;
 import ua.com.airport.entities.FlightsEntity;
+import ua.com.airport.entities.PassengersEntity;
+import ua.com.airport.entities.PriceEntity;
 import ua.com.airport.utils.SplitPaneDividerSlider;
 import ua.com.airport.entities.RootsEntity;
+
+import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -25,6 +42,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class UserSceneController extends Controller implements Initializable {
+    private MainApp mainApp;
+    private KeyCombination keyCombOk = new KeyCodeCombination(KeyCode.ENTER);
 
     @FXML private ChoiceBox cityFrom;
     @FXML private ChoiceBox cityTo;
@@ -40,9 +59,11 @@ public class UserSceneController extends Controller implements Initializable {
     @FXML private TableColumn<FlightsEntity, String> arrCityColumn;
     @FXML private TableColumn<FlightsEntity, String> arrDateColumn;
    // @FXML private TableColumn<FlightsEntity, String> arrTimeColumn;
-    @FXML private TableColumn<FlightsEntity, String> flightClassColumn;
+    @FXML private TableColumn<FlightsEntity, String> gateColumn;
+    @FXML private TableColumn<FlightsEntity, String> terminalColumn;
     @FXML private TableColumn flightPriceColumn;
     @FXML private TableColumn<FlightsEntity, String> flightStatusColumn;
+    @FXML private TableColumn<FlightsEntity, String> pricesColumn;
     //@FXML private Pagination flightsPagination;
     @FXML private ToggleButton leftToggleButton;
     @FXML private SplitPane centerSplitPane;
@@ -50,18 +71,17 @@ public class UserSceneController extends Controller implements Initializable {
     @FXML private Button resetButton;
     @FXML private VBox workIndicator;
 
-    private final int ROWS_PER_PAGE = 15;
-    private int currentPage = 1;
+    protected final int ROWS_PER_PAGE = 15;
+    protected int currentPage = 1;
 
-    private ObservableList<FlightsEntity> flightsData = FXCollections.observableArrayList();
-    private List<GuiFilter> filtersList = new ArrayList<>();
+    protected ObservableList<FlightsEntity> flightsData = FXCollections.observableArrayList();
+    protected List<GuiFilter> filtersList = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         filtersList.add(new GuiFilter(cityFrom, "Flights", "DepartureCity", true));
         filtersList.add(new GuiFilter(cityTo, "Flights", "ArrivalCity", true));
         filtersList.add(new GuiFilter(datePickerFrom, "Flights", "DepartureTime"));
-        filtersList.add(new GuiFilter(seatsBox, "PriceList", "ClassType", true));
 
         setFiltersPaneAnimation();
         setFiltersItems();
@@ -70,7 +90,7 @@ public class UserSceneController extends Controller implements Initializable {
     }
 
 
-    private void setFiltersPaneAnimation(){
+    protected void setFiltersPaneAnimation(){
         SplitPaneDividerSlider leftSplitPaneDividerSlider = new SplitPaneDividerSlider(centerSplitPane, 0, SplitPaneDividerSlider.Direction.LEFT, leftFilters);
 
         leftToggleButton.selectedProperty().addListener((ObservableValue<? extends Boolean> ov, Boolean t, Boolean t1) -> {
@@ -89,12 +109,14 @@ public class UserSceneController extends Controller implements Initializable {
         });
     }
 
-    private void initTableView(){
+    protected void initTableView(){
         numberColumn.setCellValueFactory(cellData -> {
             int index = cellData.getTableView().getItems().indexOf(cellData.getValue());
             return new SimpleStringProperty(String.valueOf((index+1)+(currentPage-1)*ROWS_PER_PAGE));
         });
         numberColumn.setSortable(false);
+
+        numberColumn.setPrefWidth(45);
 
         flightColumn.setCellValueFactory(
                 cellData -> cellData.getValue().flightNumberProperty());
@@ -108,50 +130,68 @@ public class UserSceneController extends Controller implements Initializable {
                 cellData -> cellData.getValue().arrivalTimeProperty());
         flightStatusColumn.setCellValueFactory(
                 cellData -> cellData.getValue().flightStatusProperty());
-        flightStatusColumn.setCellFactory(column -> {
-                    return new TableCell<FlightsEntity, String>() {
-                        @Override
-                        protected void updateItem(String item, boolean empty) {
-                            super.updateItem(item, empty);
-                            setText(item);
-                            if (item == null || empty) {
-                                setText("");
-                                setStyle("");
-                            }
-                            if (item != null) {
-                                if (item.equals("In process")){
-                                    setTextFill(Color.WHITE);
-                                    setStyle("-fx-background-color: green; -fx-border-color: grey");
-                                } else {
-                                    setTextFill(Color.BLACK);
-                                    setStyle("");
+        gateColumn.setCellValueFactory(
+                cellData -> cellData.getValue().gateProperty());
+        terminalColumn.setCellValueFactory(
+                cellData -> cellData.getValue().terminalProperty());
+
+        pricesColumn.setCellValueFactory( new PropertyValueFactory<>( "DUMMY" ) );
+
+        Callback<TableColumn<FlightsEntity, String>, TableCell<FlightsEntity, String>> cellFactory =
+                new Callback<TableColumn<FlightsEntity, String>, TableCell<FlightsEntity, String>>()
+                {
+                    @Override
+                    public TableCell call( final TableColumn<FlightsEntity, String> param )
+                    {
+                        final TableCell<FlightsEntity, String> cell = new TableCell<FlightsEntity, String>()
+                        {
+                            Button btn = new Button( "Show all" );
+
+                            @Override
+                            public void updateItem( String item, boolean empty )
+                            {
+                                super.updateItem( item, empty );
+                                if ( empty )
+                                {
+                                    setGraphic( null );
+                                    setText( null );
                                 }
-
+                                else
+                                {
+                                    btn.setMinHeight(5);
+                                    btn.setOnAction( ( ActionEvent event ) ->
+                                    {
+                                        FlightsEntity markedFlight = getTableView().getItems().get(getIndex());
+                                        try {
+                                            FXMLLoader loader = new FXMLLoader();
+                                            loader.setLocation(MainApp.class.getResource("/view/PriceLayout.fxml"));
+                                            AnchorPane page = (AnchorPane) loader.load();
+                                            Stage dialogStage = new Stage();
+                                            dialogStage.setTitle("Class type prices");
+                                            dialogStage.initModality(Modality.WINDOW_MODAL);
+                                            dialogStage.initOwner(getMainApp().getMainAppWindow());
+                                            Scene scene = new Scene(page);
+                                            dialogStage.setScene(scene);
+                                            PriceController priceController = loader.getController();
+                                            priceController.setDialogStage(dialogStage);
+                                            priceController.showPriceInfo(markedFlight.getFlightNumber());
+                                            dialogStage.showAndWait();
+                                        } catch (IOException e){
+                                            e.printStackTrace();
+                                        }
+                                    } );
+                                    setGraphic( btn );
+                                    setText( null );
+                                }
                             }
-                        }
-                    };
-                });
-
-        flightClassColumn.setCellValueFactory(
-                cellData -> cellData.getValue().classTypeProperty());
-
-        flightPriceColumn.setCellValueFactory(new PropertyValueFactory<FlightsEntity, Double>("classPrice"));
-        flightPriceColumn.setCellFactory(column -> {
-            return new TableCell<FlightsEntity, Double>() {
-                @Override
-                protected void updateItem(Double item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (item == null || empty){
-                        setText("");
+                        };
+                        return cell;
                     }
-                    if(item != null){
-                        DecimalFormat df = new DecimalFormat("0.00");
-                        setText(String.valueOf(df.format(item)));
-                    }
+                };
 
-                }
-            };
-        });
+        pricesColumn.setCellFactory( cellFactory );
+        pricesColumn.setStyle( "-fx-alignment: CENTER;");
+
     }
 
     protected void showFlightsInfo(){
@@ -175,10 +215,22 @@ public class UserSceneController extends Controller implements Initializable {
         showFlightsInfo();
     }
 
-    private void setFiltersItems(){
+    protected void setFiltersItems(){
         filtersList.forEach(filter->{
-            new FiltersDaoImpl().getFilterItems(filter);
-            filter.setFilterGui();
+            if (filter.isListTypeFromDB()){
+                new FiltersDaoImpl().getFilterItems(filter);
+                filter.setFilterGui();
+            }
         });
+    }
+
+    @Override
+    public MainApp getMainApp() {
+        return this.mainApp;
+    }
+
+    @Override
+    public void setMainApp(MainApp mainApp){
+        this.mainApp = mainApp;
     }
 }
