@@ -249,7 +249,7 @@ public class AdminPriceController extends PriceController {
                 Stage dialogStage = new Stage();
                 dialogStage.setTitle("ERROR");
                 dialogStage.initModality(Modality.WINDOW_MODAL);
-                dialogStage.initOwner(mainApp.getMainAppWindow());
+                dialogStage.initOwner(this.dialogStage);
                 Scene scene = new Scene(page);
                 dialogStage.setScene(scene);
                 ErrorController errorController = loader.getController();
