@@ -14,12 +14,12 @@ public class FlightsDaoImpl extends DataBaseUtil implements FlightsDao {
     private Connection con;
     private PreparedStatement pstmt;
     private ResultSet rs;
-    private String query = "SELECT a.idFlight, " +
-            "a.FlightNumber, " +
-            "a.DepartureCity, a.DepartureTime, " +
-            "a.ArrivalCity, a.ArivalTime, " +
-            "a.Gate, a.Terminal, a.FlightStatus, " +
-            "b.ClassType, b.Price FROM Flights a INNER JOIN PriceList b ON a.FlightNumber = b.FlightNumber";
+    private String query = "SELECT idFlight, " +
+            "FlightNumber, " +
+            "DepartureCity, DepartureTime, " +
+            "ArrivalCity, ArivalTime, " +
+            "Gate, Terminal, FlightStatus " +
+            "FROM Flights";
 
     private List<FlightsEntity> flightsList = new ArrayList<>();
     private List<String> flightNumbers = new ArrayList<>();
@@ -44,8 +44,6 @@ public class FlightsDaoImpl extends DataBaseUtil implements FlightsDao {
                     String gate = rs.getString(7);
                     String terminal = rs.getString(8);
                     String flightStatus = rs.getString(9);
-                    String flightClass = rs.getString(10);
-                    String flightPrice = rs.getString(11);
                     FlightsEntity currentFlight = new FlightsEntity(
                             flightId,
                             arrTime,
@@ -55,9 +53,7 @@ public class FlightsDaoImpl extends DataBaseUtil implements FlightsDao {
                             gate,
                             terminal,
                             depCity,
-                            arrCity,
-                            flightClass,
-                            new Double(flightPrice)
+                            arrCity
                     );
                    flightsList.add(currentFlight);
                 }
@@ -78,14 +74,14 @@ public class FlightsDaoImpl extends DataBaseUtil implements FlightsDao {
             if (filter.getSelectedValue()!=null) {
                 String filteredString;
                 filterValuers.add(filter.getSelectedValue());
-                String tableShortName = "a.";
-                if (filter.getSqlField().equals("ClassType") || filter.getSqlField().equals("Price")){
-                    tableShortName = "b.";
-                }
+//                String tableShortName = "a.";
+//                if (filter.getSqlField().equals("ClassType") || filter.getSqlField().equals("Price")){
+//                    tableShortName = "b.";
+//                }
                 if (filterValuers.size() == 1) {
-                    filteredString = " WHERE " + tableShortName+filter.getSqlField() + "='"+filter.getSelectedValue()+"'";
+                    filteredString = " WHERE " + filter.getSqlField() + "='"+filter.getSelectedValue()+"'";
                 } else {
-                    filteredString = " AND " + tableShortName+filter.getSqlField() + "='"+filter.getSelectedValue()+"'";
+                    filteredString = " AND " + filter.getSqlField() + "='"+filter.getSelectedValue()+"'";
                 }
                 query = query+filteredString;
             }
@@ -96,7 +92,7 @@ public class FlightsDaoImpl extends DataBaseUtil implements FlightsDao {
 
     @Override
     public List<String> getAllFightNumbers(){
-        String query = "SELECT DISTINCT  FlightNumber FROM Flights";
+        String query = "SELECT DISTINCT FlightNumber FROM Flights";
         try {
             con = getConnectionDb();
             if (con != null){
@@ -142,18 +138,17 @@ public class FlightsDaoImpl extends DataBaseUtil implements FlightsDao {
     }
 
     @Override
-    public void deleteFLight(int flightsEntity) {
+    public void deleteFLight(int flightId) {
         String query = "DELETE FROM Flights WHERE idFlight = ?";
         try{
             con = getConnectionDb();
             if(con != null){
                 pstmt = con.prepareStatement(query);
-                //   pstmt.setInt(1, id);
+                pstmt.setInt(1, flightId);
                 pstmt.executeUpdate();
             }
         } catch (SQLException sqlE) {
             System.out.printf("Connection problem");
-            System.out.println(sqlE);
 
         } finally {
             try {
@@ -171,10 +166,9 @@ public class FlightsDaoImpl extends DataBaseUtil implements FlightsDao {
 
     @Override
     public void createFlight(FlightsEntity flightsEntity) {
-        String query = "INSERT INTO Flights (FlightNumber, "+"DepartureCity, DepartureTime, " +
+        String query = "INSERT INTO Flights (FlightNumber, DepartureCity, DepartureTime, " +
                 "ArrivalCity, ArivalTime, " +
-                "Gate, Terminal, FlightStatus, " +
-                "ClassType, Price)" + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "Gate, Terminal, FlightStatus)" + "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             con = getConnectionDb();
             if (con != null) {
@@ -185,10 +179,8 @@ public class FlightsDaoImpl extends DataBaseUtil implements FlightsDao {
                 pstmt.setString(4, flightsEntity.getCityOfArrival());
                 pstmt.setString(5, flightsEntity.getArrivalTime());
                 pstmt.setString(6, flightsEntity.getGate());
-                pstmt.setString(7, flightsEntity.getClassType());
+                pstmt.setString(7, flightsEntity.getTerminal());
                 pstmt.setString(8, flightsEntity.getFlightStatus());
-                pstmt.setString(9, String.valueOf(flightsEntity.getClassPrice()));
-                pstmt.setString(10,flightsEntity.getTerminal());
                 pstmt.executeUpdate();
             }
         } catch (SQLException sqlE) {
@@ -213,23 +205,20 @@ public class FlightsDaoImpl extends DataBaseUtil implements FlightsDao {
     public void updateFlight(FlightsEntity flightsEntity) {
         String query = "UPDATE Flights SET ArivalTime = ?, DepartureTime = ?, " +
                 "FlightNumber = ?, FlightStatus = ?,"+"DepartureCity = ?, " +
-                "ArrivalCity = ?, Gate = ?, Terminal = ?, " +
-                "ClassType = ?, Price = ?" + "WHERE idFlight = ?";
+                "ArrivalCity = ?, Gate = ?, Terminal = ? " + "WHERE idFlight = ?";
         try {
             con = getConnectionDb();
             if (con != null) {
                 pstmt = con.prepareStatement(query);
-                pstmt.setString(1, flightsEntity.getFlightNumber());
-                pstmt.setString(2, flightsEntity.getCityOfDeparture());
-                pstmt.setString(3, flightsEntity.getDepartureTime());
-                pstmt.setString(4, flightsEntity.getCityOfArrival());
-                pstmt.setString(5, flightsEntity.getArrivalTime());
-                pstmt.setString(6, flightsEntity.getGate());
-                pstmt.setString(7, flightsEntity.getClassType());
-                pstmt.setString(8, flightsEntity.getFlightStatus());
-                pstmt.setString(9, String.valueOf(flightsEntity.getClassPrice()));
-                pstmt.setString(10,flightsEntity.getTerminal());
-                //     pstmt.setInt(11, get);
+                pstmt.setString(1, flightsEntity.getArrivalTime());
+                pstmt.setString(2, flightsEntity.getDepartureTime());
+                pstmt.setString(3, flightsEntity.getFlightNumber());
+                pstmt.setString(4, flightsEntity.getFlightStatus());
+                pstmt.setString(5, flightsEntity.getCityOfDeparture());
+                pstmt.setString(6, flightsEntity.getCityOfArrival());
+                pstmt.setString(7, flightsEntity.getGate());
+                pstmt.setString(8, flightsEntity.getTerminal());
+                pstmt.setInt(9, flightsEntity.getId());
                 pstmt.executeUpdate();
             }
         } catch (SQLException sqlE) {

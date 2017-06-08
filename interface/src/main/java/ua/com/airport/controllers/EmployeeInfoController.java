@@ -124,6 +124,7 @@ public class EmployeeInfoController extends Controller implements Initializable 
 
             // Отображаем диалоговое окно и ждём, пока пользователь его не закроет
             dialogStage.showAndWait();
+            showEmployeeInfo();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -228,9 +229,9 @@ public class EmployeeInfoController extends Controller implements Initializable 
                 });
 
                 dialogStage.showAndWait();
-                RootsDaoImpl rootsDao = new RootsDaoImpl();
                 boolean okClicked = emDeleteController.isOkClicked();
                 if(okClicked){
+                    RootsDaoImpl rootsDao = new RootsDaoImpl();
                     rootsDao.deleteRoot(markedEmployee.getId());
                 }
                 showEmployeeInfo();
@@ -305,8 +306,10 @@ public class EmployeeInfoController extends Controller implements Initializable 
 
     private void setFiltersItems(){
         filtersList.forEach(filter->{
-            new FiltersDaoImpl().getFilterItems(filter);
-            filter.setFilterGui();
+            if (filter.isListTypeFromDB()){
+                new FiltersDaoImpl().getFilterItems(filter);
+                filter.setFilterGui();
+            }
         });
     }
 }
